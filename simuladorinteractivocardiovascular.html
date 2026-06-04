@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Interactivo: Sistema Cardiovascular</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --bg-color: #f8f9fa;
+            --text-color: #333;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+            --hover-fill: #b3e5fc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        h1, h2 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+
+        .interactive-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .diagram-container {
+            flex: 1;
+            min-width: 300px;
+            background: #f0f3f4;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* SVG Styles */
+        .organ-part {
+            fill: #d5dfe5;
+            stroke: var(--primary-color);
+            stroke-width: 2;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .organ-part:hover, .organ-part.active {
+            fill: var(--hover-fill);
+            stroke: var(--accent-color);
+        }
+
+        .svg-text {
+            font-size: 14px;
+            font-weight: bold;
+            fill: var(--primary-color);
+            pointer-events: none;
+        }
+
+        .info-panel {
+            flex: 1;
+            min-width: 300px;
+            padding: 25px;
+            background: #ffffff;
+            border: 2px solid #e0e6ed;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .info-panel h3 {
+            color: var(--accent-color);
+            margin-top: 0;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+        }
+
+        .info-panel p {
+            line-height: 1.6;
+            font-size: 1.1em;
+        }
+
+        .scenario-section {
+            background: #eaf2f8;
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 5px solid var(--accent-color);
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button.option-btn {
+            padding: 12px 20px;
+            font-size: 1em;
+            background-color: white;
+            border: 1px solid var(--accent-color);
+            color: var(--primary-color);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-align: left;
+        }
+
+        button.option-btn:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 6px;
+            display: none;
+            font-weight: bold;
+        }
+
+        .feedback.success {
+            display: block;
+            background-color: #d5f5e3;
+            color: #1e8449;
+            border: 1px solid var(--success-color);
+        }
+
+        .feedback.error {
+            display: block;
+            background-color: #fadbd8;
+            color: #943126;
+            border: 1px solid var(--error-color);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Anatomía y Función Cardiovascular</h1>
+    <p class="subtitle">Haz clic en las distintas partes del diagrama esquemático para explorar su función.</p>
+
+    <div class="interactive-area">
+        <div class="diagram-container">
+            <svg viewBox="0 0 400 400" width="100%" height="300" id="heart-svg">
+                <rect x="120" y="40" width="60" height="110" rx="10" class="organ-part" id="vena_cava" />
+                <text x="150" y="100" class="svg-text" text-anchor="middle">Vena Cava</text>
+                
+                <path d="M 220 150 C 220 50, 280 50, 280 150" fill="none" stroke="#d5dfe5" stroke-width="60" stroke-linecap="round" class="organ-part" id="aorta"/>
+                <text x="250" y="90" class="svg-text" text-anchor="middle">Aorta</text>
+
+                <rect x="90" y="160" width="100" height="90" rx="15" class="organ-part" id="auricula_der" />
+                <text x="140" y="210" class="svg-text" text-anchor="middle">Aurícula Der.</text>
+
+                <rect x="210" y="160" width="100" height="90" rx="15" class="organ-part" id="auricula_izq" />
+                <text x="260" y="210" class="svg-text" text-anchor="middle">Aurícula Izq.</text>
+
+                <path d="M 90 260 L 190 260 L 190 340 Q 140 380 90 340 Z" class="organ-part" id="ventriculo_der" />
+                <text x="140" y="310" class="svg-text" text-anchor="middle">Ventrículo Der.</text>
+
+                <path d="M 210 260 L 310 260 L 310 340 Q 260 380 210 340 Z" class="organ-part" id="ventriculo_izq" />
+                <text x="260" y="310" class="svg-text" text-anchor="middle">Ventrículo Izq.</text>
+            </svg>
+        </div>
+
+        <div class="info-panel">
+            <h3 id="info-title">Selecciona una estructura</h3>
+            <p id="info-desc">Haz clic en el diagrama de la izquierda para ver la función específica de cada cámara y vaso sanguíneo principal.</p>
+        </div>
+    </div>
+
+    <div class="scenario-section">
+        <h2>Escenario de Análisis Clínico</h2>
+        <p><strong>Caso:</strong> Un paciente de 55 años presenta hipertensión arterial crónica no controlada. Esto significa que la resistencia en sus vasos sanguíneos es inusualmente alta, dificultando la distribución de la sangre oxigenada hacia el resto del cuerpo.</p>
+        <p><strong>Pregunta:</strong> Basado en el recorrido de la sangre, ¿qué cámara del corazón se verá obligada a realizar un sobreesfuerzo crónico (hipertrofia) para vencer esta alta presión y lograr bombear la sangre al sistema?</p>
+        
+        <div class="options">
+            <button class="option-btn" onclick="checkAnswer('A')">A) El ventrículo derecho, porque empuja la sangre hacia los pulmones.</button>
+            <button class="option-btn" onclick="checkAnswer('B')">B) El ventrículo izquierdo, porque es el encargado de bombear la sangre a través de la aorta hacia todo el cuerpo.</button>
+            <button class="option-btn" onclick="checkAnswer('C')">C) La aurícula derecha, porque recibe toda la sangre desoxigenada del cuerpo.</button>
+        </div>
+
+        <div id="quiz-feedback" class="feedback"></div>
+    </div>
+</div>
+
+<script>
+    // Datos de la anatomía
+    const organData = {
+        vena_cava: {
+            title: "Venas Cavas (Superior e Inferior)",
+            desc: "Son las venas principales del cuerpo. Su función es recoger la sangre desoxigenada (pobre en oxígeno) de los tejidos del cuerpo y transportarla de regreso hacia la aurícula derecha del corazón."
+        },
+        aorta: {
+            title: "Arteria Aorta",
+            desc: "Es la arteria más grande y principal del cuerpo humano. Recibe la sangre rica en oxígeno del ventrículo izquierdo y la distribuye a todos los órganos y tejidos del sistema."
+        },
+        auricula_der: {
+            title: "Aurícula Derecha",
+            desc: "Actúa como la cámara receptora principal. Recibe la sangre desoxigenada proveniente del cuerpo a través de las venas cavas y, al contraerse, la empuja hacia el ventrículo derecho."
+        },
+        auricula_izq: {
+            title: "Aurícula Izquierda",
+            desc: "Recibe la sangre recién oxigenada proveniente de los pulmones a través de las venas pulmonares. Luego, bombea esta sangre hacia el ventrículo izquierdo."
+        },
+        ventriculo_der: {
+            title: "Ventrículo Derecho",
+            desc: "Recibe la sangre de la aurícula derecha y su función principal es bombearla hacia los pulmones (a través de la arteria pulmonar) para que adquiera oxígeno y libere dióxido de carbono."
+        },
+        ventriculo_izq: {
+            title: "Ventrículo Izquierdo",
+            desc: "Es la cámara más fuerte del corazón. Recibe sangre oxigenada de la aurícula izquierda y la bombea con gran fuerza hacia la arteria aorta, para distribuirla a todo el organismo."
+        }
+    };
+
+    // Lógica del diagrama interactivo
+    const parts = document.querySelectorAll('.organ-part');
+    const titleEl = document.getElementById('info-title');
+    const descEl = document.getElementById('info-desc');
+
+    parts.forEach(part => {
+        part.addEventListener('click', function() {
+            // Remover estado activo de todos
+            parts.forEach(p => p.classList.remove('active'));
+            // Activar el seleccionado
+            this.classList.add('active');
+            
+            // Actualizar panel
+            const data = organData[this.id];
+            if(data) {
+                titleEl.textContent = data.title;
+                descEl.textContent = data.desc;
+            }
+        });
+    });
+
+    // Lógica del escenario de decisiones
+    function checkAnswer(answer) {
+        const feedback = document.getElementById('quiz-feedback');
+        feedback.className = 'feedback'; // Reset classes
+        
+        if (answer === 'B') {
+            feedback.textContent = "¡Correcto! El ventrículo izquierdo es el responsable de bombear la sangre hacia la circulación sistémica. Al haber hipertensión (alta resistencia), este músculo debe trabajar mucho más fuerte, lo que a largo plazo puede causar hipertrofia ventricular izquierda.";
+            feedback.classList.add('success');
+        } else if (answer === 'A') {
+            feedback.textContent = "Incorrecto. El ventrículo derecho bombea hacia los pulmones (circulación pulmonar), donde la presión arterial sistémica no tiene un impacto directo inicial. Revisa la función del ventrículo izquierdo.";
+            feedback.classList.add('error');
+        } else {
+            feedback.textContent = "Incorrecto. Las aurículas son cámaras de recepción y paso, no generan la fuerza principal para vencer la resistencia arterial del cuerpo. Intenta de nuevo.";
+            feedback.classList.add('error');
+        }
+    }
+</script>
+
+</body>
+</html>
