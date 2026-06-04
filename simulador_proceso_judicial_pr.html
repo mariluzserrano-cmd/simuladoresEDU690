@@ -1,0 +1,246 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.sim{max-width:680px;padding:1.5rem 0}
+.header{border-bottom:0.5px solid var(--color-border-tertiary);padding-bottom:1.25rem;margin-bottom:1.5rem}
+.badge{display:inline-block;font-size:11px;font-weight:500;padding:3px 10px;border-radius:var(--border-radius-md);background:var(--color-background-secondary);color:var(--color-text-secondary);letter-spacing:.04em;margin-bottom:.5rem}
+.title{font-size:22px;font-weight:500;color:var(--color-text-primary);margin-bottom:.25rem}
+.subtitle{font-size:14px;color:var(--color-text-secondary)}
+.progress-bar{display:flex;gap:4px;margin:1.25rem 0}
+.step-dot{flex:1;height:4px;border-radius:2px;background:var(--color-border-tertiary);transition:background .3s}
+.step-dot.done{background:#1D9E75}
+.step-dot.active{background:#378ADD}
+.scene{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem;margin-bottom:1rem}
+.scene-label{font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem}
+.scene-title{font-size:18px;font-weight:500;color:var(--color-text-primary);margin-bottom:.75rem}
+.scene-body{font-size:15px;color:var(--color-text-secondary);line-height:1.7}
+.choice-grid{display:flex;flex-direction:column;gap:.5rem;margin-top:1.25rem}
+.choice-btn{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:.75rem 1rem;text-align:left;cursor:pointer;font-size:14px;color:var(--color-text-primary);transition:all .18s;display:flex;align-items:flex-start;gap:.75rem}
+.choice-btn:hover{background:var(--color-background-secondary);border-color:var(--color-border-primary)}
+.choice-letter{min-width:24px;height:24px;border-radius:50%;background:var(--color-background-secondary);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:var(--color-text-secondary);flex-shrink:0;margin-top:1px}
+.choice-text{flex:1}
+.choice-text strong{display:block;font-weight:500;margin-bottom:2px}
+.choice-text span{font-size:13px;color:var(--color-text-secondary)}
+.consequence{border-radius:var(--border-radius-md);padding:1rem 1.25rem;margin-top:1rem;border:0.5px solid}
+.consequence.good{background:#EAF3DE;border-color:#9FE1CB;color:#3B6D11}
+.consequence.bad{background:#FAECE7;border-color:#F5C4B3;color:#993C1D}
+.consequence.neutral{background:#E6F1FB;border-color:#B5D4F4;color:#0C447C}
+.consequence-title{font-size:13px;font-weight:500;margin-bottom:.35rem}
+.consequence-body{font-size:13px;line-height:1.6}
+.explain-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:1rem 1.25rem;margin-top:1rem}
+.explain-title{font-size:12px;font-weight:500;color:var(--color-text-secondary);margin-bottom:.35rem;display:flex;align-items:center;gap:6px}
+.explain-body{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.nav-row{display:flex;gap:.75rem;margin-top:1.25rem;align-items:center}
+.btn-primary{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:.55rem 1.1rem;font-size:14px;color:var(--color-text-primary);cursor:pointer;transition:all .18s}
+.btn-primary:hover{background:var(--color-background-secondary)}
+.step-counter{font-size:13px;color:var(--color-text-secondary);margin-left:auto}
+.verdict-card{border-radius:var(--border-radius-lg);padding:2rem;text-align:center;border:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary)}
+.verdict-icon{font-size:40px;margin-bottom:.75rem}
+.verdict-title{font-size:20px;font-weight:500;margin-bottom:.5rem;color:var(--color-text-primary)}
+.verdict-body{font-size:14px;color:var(--color-text-secondary);line-height:1.7;max-width:480px;margin:0 auto 1.5rem}
+.score-row{display:flex;justify-content:center;gap:2rem;margin-bottom:1.5rem}
+.score-item{text-align:center}
+.score-num{font-size:28px;font-weight:500}
+.score-lbl{font-size:12px;color:var(--color-text-secondary)}
+.score-good{color:#1D9E75}
+.score-bad{color:#D85A30}
+.btn-restart{border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);border-radius:var(--border-radius-md);padding:.6rem 1.4rem;font-size:14px;cursor:pointer;color:var(--color-text-primary)}
+.btn-restart:hover{background:var(--color-background-secondary)}
+.phase-chip{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:500;padding:3px 10px;border-radius:var(--border-radius-md);margin-bottom:.75rem}
+.phase-pretrial{background:#E6F1FB;color:#0C447C}
+.phase-trial{background:#FAEEDA;color:#633806}
+.phase-verdict{background:#EAF3DE;color:#27500A}
+</style>
+
+<h2 class="sr-only">Simulador interactivo del proceso judicial en Puerto Rico. Toma decisiones paso a paso como acusado y observa las consecuencias legales.</h2>
+
+<div class="sim" id="app"></div>
+
+<script>
+const STEPS=[
+{id:0,phase:"pretrial",phaseLabel:"Etapa previa al juicio",icon:"ti-gavel",
+ scene:"El caso: acusación penal",
+ body:"Eres acusado de hurto menor (misdemeanor) en Puerto Rico. La policía te arrestó anoche y ahora te encuentras en la comandancia. El agente a cargo te informa que tienes derecho a llamar a alguien. ¿Qué haces primero?",
+ choices:[
+  {letter:"A",text:"Llamas a un abogado",detail:"Ejerces tu derecho constitucional al asesoramiento legal antes de hablar.",type:"good"},
+  {letter:"B",text:"Hablas con los agentes sin abogado",detail:"Decides explicar tu versión directamente, confiando en que te creerán.",type:"bad"},
+  {letter:"C",text:"Permaneces en silencio",detail:"Invocas tu derecho constitucional a no autoincriminarte (Art. II, Sec. 11).",type:"neutral"}
+ ],
+ consequences:{
+  good:{type:"good",title:"Decisión acertada",body:"Tu abogado llega en una hora. Te asesora sobre lo que puedes y no puedes decir. Esto protege tu caso desde el principio."},
+  bad:{type:"bad",title:"Riesgo legal significativo",body:"Cualquier declaración que hagas puede usarse en tu contra. Sin asesoría legal, podrías decir algo que complique tu defensa, aunque sea inocente."},
+  neutral:{type:"neutral",title:"Derecho constitucional ejercido",body:"El silencio es un derecho protegido. Los agentes no pueden penalizar que lo invoque. Es una postura legalmente segura."}
+ },
+ explain:"La Constitución de Puerto Rico (Art. II, Sec. 11) y la 5.ª Enmienda de la Constitución federal garantizan que ninguna persona puede ser obligada a testificar contra sí misma. La advertencia Miranda incluye este derecho."
+},
+{id:1,phase:"pretrial",phaseLabel:"Etapa previa al juicio",icon:"ti-building",
+ scene:"La vista de causa probable",
+ body:"Al día siguiente, compareces ante el tribunal para la vista de causa probable (preliminary hearing). El juez determina si existe evidencia suficiente para llevar el caso a juicio. El fiscal presenta: un video de seguridad y el testimonio del empleado. Tu abogado puede impugnar. ¿Qué estrategia adoptas?",
+ choices:[
+  {letter:"A",text:"Impugnar la evidencia del video",detail:"Tu abogado cuestiona la cadena de custodia del video y su autenticidad.",type:"good"},
+  {letter:"B",text:"Solicitar acuerdo con el fiscal (plea deal)",detail:"Propones admitir culpabilidad a cambio de una sentencia menor.",type:"neutral"},
+  {letter:"C",text:"No presentar defensa en esta etapa",detail:"Dejas que el fiscal exponga su caso sin contestar.",type:"bad"}
+ ],
+ consequences:{
+  good:{type:"good",title:"Estrategia defensiva sólida",body:"Si la cadena de custodia del video está rota, el juez podría excluirla como evidencia. Debilita el caso del fiscal significativamente."},
+  neutral:{type:"neutral",title:"Acuerdo negociado",body:"El fiscal acepta reducir el cargo a una infracción civil con multa. Evitas juicio, pero el acuerdo queda en tu récord hasta expungirse."},
+  bad:{type:"bad",title:"Causa probable establecida",body:"Sin impugnar, el juez determina que hay causa probable. El caso avanza a juicio. Perdiste una oportunidad importante de defensa temprana."}
+ },
+ explain:"La vista de causa probable es un control judicial sobre el poder del estado. El juez no determina culpabilidad, solo si la evidencia es suficiente para justificar un juicio. La Regla 6 de Procedimiento Criminal de Puerto Rico la regula."
+},
+{id:2,phase:"trial",phaseLabel:"El juicio",icon:"ti-users",
+ scene:"Selección del jurado",
+ body:"Tu caso va a juicio. Tienes derecho a un jurado de 12 personas (Art. II, Sec. 11 de la Constitución). Durante el proceso de voir dire, el abogado del fiscal y el tuyo pueden recusar a candidatos. Notas que uno de los candidatos parece hostil. ¿Qué haces?",
+ choices:[
+  {letter:"A",text:"Recusación perentoria",detail:"Tu abogado elimina al candidato sin necesidad de explicar razones (tienes hasta 10).",type:"good"},
+  {letter:"B",text:"Recusación por causa justificada",detail:"Tu abogado argumenta ante el juez que el candidato no puede ser imparcial.",type:"neutral"},
+  {letter:"C",text:"Aceptas al candidato hostil",detail:"Decides no usar tus recusaciones para preservarlas para otros candidatos.",type:"bad"}
+ ],
+ consequences:{
+  good:{type:"good",title:"Jurado más favorable",body:"Eliminas al candidato hostil sin debate. El voir dire continúa y conformas un jurado más balanceado. Las recusaciones perentorias son una herramienta estratégica clave."},
+  neutral:{type:"neutral",title:"Recusación debatida",body:"El juez evalúa el argumento. Si hay evidencia de parcialidad (comentarios, historial), la recusación prospera. Si no, el candidato permanece."},
+  bad:{type:"bad",title:"Jurado potencialmente desfavorable",body:"Un jurado hostil podría interpretar la evidencia en tu contra. Esto eleva el riesgo de condena aunque la evidencia sea débil."}
+ },
+ explain:"En Puerto Rico, cada parte tiene un número limitado de recusaciones perentorias (sin causa) y recusaciones por justa causa (ilimitadas, pero deben probarse). El jurado imparcial es un derecho constitucional fundamental garantizado por Art. II, Sec. 11."
+},
+{id:3,phase:"trial",phaseLabel:"El juicio",icon:"ti-message",
+ scene:"Testimonio del acusado",
+ body:"El fiscal presentó su caso. Ahora tu abogado debe decidir si tú testificas. El video no es concluyente. El empleado identificó tu ropa, pero no tu cara. Tu abogado te advierte: si testificas, el fiscal puede interrogarte. ¿Qué decides?",
+ choices:[
+  {letter:"A",text:"Testificas en tu defensa",detail:"Presentas tu versión directamente al jurado. Es persuasivo pero arriesgado.",type:"neutral"},
+  {letter:"B",text:"No testificas y el jurado lo sabe",detail:"Tu abogado no explica por qué no testificas. El silencio puede malinterpretarse.",type:"bad"},
+  {letter:"C",text:"No testificas y el juez instruye al jurado",detail:"El juez instruye formalmente que el silencio NO puede interpretarse como culpa.",type:"good"}
+ ],
+ consequences:{
+  neutral:{type:"neutral",title:"Testimonio de doble filo",body:"Tu versión puede convencer al jurado, pero el contrainterrogatorio del fiscal podría exponerte a contradicciones. Es una decisión de alto riesgo y alta recompensa."},
+  bad:{type:"bad",title:"Silencio mal gestionado",body:"Sin instrucción judicial, el jurado podría asumir que el silencio implica culpa. Aunque esto es constitucionalmente incorrecto, el sesgo humano puede operar."},
+  good:{type:"good",title:"Protección constitucional activada",body:"La instrucción judicial es clara: el silencio del acusado no puede considerarse evidencia de culpa. Esto protege tu derecho constitucional y orienta correctamente al jurado."}
+ },
+ explain:"El derecho a no testificar está garantizado por la 5.ª Enmienda y el Art. II, Sec. 11 de la Constitución de PR. En Griffin v. California (1965), el Tribunal Supremo federal prohibió que los fiscales hagan referencia negativa al silencio del acusado."
+},
+{id:4,phase:"verdict",phaseLabel:"Deliberación y veredicto",icon:"ti-scale",
+ scene:"Las instrucciones al jurado",
+ body:"El juez instruye al jurado sobre el estándar de prueba: 'más allá de duda razonable'. El jurado se retira a deliberar. Dos horas después, el juez recibe una nota: 'No podemos llegar a un acuerdo en 11 vs 1'. ¿Qué ocurre?",
+ choices:[
+  {letter:"A",text:"El juez declara un 'jurado colgado' (hung jury)",detail:"El proceso termina sin veredicto. El estado puede repetir el juicio.",type:"good"},
+  {letter:"B",text:"El juez fuerza un veredicto",detail:"El juez presiona al jurado para que llegue a acuerdo antes de la noche.",type:"bad"},
+  {letter:"C",text:"El juez acepta un veredicto de 11 votos",detail:"Decide que la mayoría cualificada es suficiente en este caso.",type:"neutral"}
+ ],
+ consequences:{
+  good:{type:"good",title:"Procedimiento correcto",body:"Un jurado dividido resulta en mistrial. Eres liberado temporalmente. El fiscal decide si presenta el caso de nuevo. Esto preserva la integridad del sistema de justicia."},
+  bad:{type:"bad",title:"Violación al debido proceso",body:"Ningún juez puede coaccionar un veredicto. Esto constituye una violación grave del debido proceso y causaría la nulidad del juicio en apelación (reversible error)."},
+  neutral:{type:"neutral",title:"Inconstitucional en PR",body:"Para delitos graves, Puerto Rico requiere unanimidad del jurado. Para misdemeanors con jurado de 12, también se exige unanimidad. Un veredicto de 11 sería nulo."}
+ },
+ explain:"El estándar de 'más allá de duda razonable' (beyond reasonable doubt) es la protección más alta del sistema penal. Es más exigente que 'preponderancia de evidencia' (civil) o 'causa probable' (arresto). Exige certeza moral de culpabilidad."
+}
+];
+
+let cur=0,choices=[],selected=null,showing=false;
+
+function phaseClass(p){return p==='pretrial'?'phase-pretrial':p==='trial'?'phase-trial':'phase-verdict'}
+
+function render(){
+ const app=document.getElementById('app');
+ if(cur>=STEPS.length){renderVerdict(app);return}
+ const s=STEPS[cur];
+ const done=STEPS.slice(0,cur).map((_,i)=>`<div class="step-dot done"></div>`).join('');
+ const active=`<div class="step-dot active"></div>`;
+ const rest=STEPS.slice(cur+1).map(()=>`<div class="step-dot"></div>`).join('');
+ 
+ app.innerHTML=`
+ <div class="header">
+  <span class="badge">Simulador Judicial — Puerto Rico</span>
+  <div class="title">Proceso Penal Interactivo</div>
+  <div class="subtitle">Toma decisiones como acusado y observa sus consecuencias legales</div>
+  <div class="progress-bar">${done}${active}${rest}</div>
+ </div>
+ <div class="scene">
+  <span class="phase-chip ${phaseClass(s.phase)}"><i class="ti ti-${s.icon}" aria-hidden="true"></i> ${s.phaseLabel}</span>
+  <div class="scene-label">Escenario ${cur+1} de ${STEPS.length}</div>
+  <div class="scene-title">${s.scene}</div>
+  <div class="scene-body">${s.body}</div>
+  ${selected===null?renderChoices(s):''}
+  ${selected!==null?renderResult(s):''}
+ </div>
+ ${selected!==null?`
+ <div class="nav-row">
+  ${cur>0?`<button class="btn-primary" onclick="goBack()"><i class="ti ti-arrow-left" aria-hidden="true"></i> Anterior</button>`:''}
+  <button class="btn-primary" onclick="nextStep()">${cur<STEPS.length-1?'Siguiente escenario <i class=\'ti ti-arrow-right\' aria-hidden=\'true\'></i>':'Ver resultado final <i class=\'ti ti-trophy\' aria-hidden=\'true\'></i>'}</button>
+  <span class="step-counter">${cur+1} / ${STEPS.length}</span>
+ </div>`:''}
+ `;
+}
+
+function renderChoices(s){
+ return `<div class="choice-grid">${s.choices.map((c,i)=>`
+  <button class="choice-btn" onclick="choose(${i})" aria-label="Opción ${c.letter}: ${c.text}">
+   <span class="choice-letter">${c.letter}</span>
+   <span class="choice-text"><strong>${c.text}</strong><span>${c.detail}</span></span>
+  </button>`).join('')}</div>`;
+}
+
+function renderResult(s){
+ const ch=s.choices[selected];
+ const cons=s.consequences[ch.type];
+ const typeIcon=ch.type==='good'?'ti-circle-check':ch.type==='bad'?'ti-alert-circle':'ti-info-circle';
+ return `
+  <div class="choice-grid">${s.choices.map((c,i)=>`
+   <div class="choice-btn" style="${i===selected?'border-color:var(--color-border-primary);background:var(--color-background-secondary)':''};cursor:default">
+    <span class="choice-letter">${c.letter}</span>
+    <span class="choice-text"><strong>${c.text}</strong><span>${c.detail}</span></span>
+    ${i===selected?`<i class="ti ${typeIcon}" style="font-size:18px;color:${ch.type==='good'?'#1D9E75':ch.type==='bad'?'#D85A30':'#378ADD'}" aria-hidden="true"></i>`:''}
+   </div>`).join('')}</div>
+  <div class="consequence ${cons.type}">
+   <div class="consequence-title">${cons.title}</div>
+   <div class="consequence-body">${cons.body}</div>
+  </div>
+  <div class="explain-box">
+   <div class="explain-title"><i class="ti ti-book" style="font-size:14px" aria-hidden="true"></i> Marco legal</div>
+   <div class="explain-body">${s.explain}</div>
+  </div>`;
+}
+
+function renderVerdict(app){
+ const good=choices.filter(c=>c==='good').length;
+ const bad=choices.filter(c=>c==='bad').length;
+ const neutral=choices.filter(c=>c==='neutral').length;
+ let icon,title,body,color;
+ if(good>=3){icon='⚖️';title='Defensa ejemplar';body='Tomaste las decisiones más estratégicas en cada etapa. Conoces tus derechos constitucionales y los usaste efectivamente. En un escenario real, tu postura habría maximizado las posibilidades de absolución o reducción de cargos.';color='score-good'}
+ else if(bad>=3){icon='📋';title='Caso comprometido';body='Varias de tus decisiones debilitaron tu defensa. El sistema judicial es complejo y los errores procesales tienen consecuencias reales. En un caso real, estas decisiones podrían resultar en condena o sentencia más severa.';color='score-bad'}
+ else{icon='🏛️';title='Resultado mixto';body='Tomaste algunas decisiones acertadas y otras que limitaron tu defensa. Conocer tus derechos constitucionales desde el primer momento es crucial para navegar el proceso judicial de manera efectiva.';color=''}
+
+ app.innerHTML=`
+ <div class="header">
+  <span class="badge">Simulador Judicial — Puerto Rico</span>
+  <div class="progress-bar">${STEPS.map(()=>'<div class="step-dot done"></div>').join('')}</div>
+ </div>
+ <div class="verdict-card">
+  <div class="verdict-icon">${icon}</div>
+  <div class="verdict-title">${title}</div>
+  <div class="score-row">
+   <div class="score-item"><div class="score-num score-good">${good}</div><div class="score-lbl">Decisiones óptimas</div></div>
+   <div class="score-item"><div class="score-num" style="color:var(--color-text-secondary)">${neutral}</div><div class="score-lbl">Decisiones neutras</div></div>
+   <div class="score-item"><div class="score-num score-bad">${bad}</div><div class="score-lbl">Decisiones riesgosas</div></div>
+  </div>
+  <div class="verdict-body">${body}</div>
+  <button class="btn-restart" onclick="restart()"><i class="ti ti-refresh" aria-hidden="true"></i> Reiniciar simulación</button>
+ </div>
+ <div class="explain-box" style="margin-top:1rem">
+  <div class="explain-title"><i class="ti ti-book" style="font-size:14px" aria-hidden="true"></i> Etapas del proceso penal en Puerto Rico</div>
+  <div class="explain-body">Arresto → Vista de Causa Probable → Acusación formal → Selección de jurado → Juicio → Veredicto → Sentencia (si aplica) → Apelación. Cada etapa ofrece oportunidades de defensa que deben ejercerse estratégicamente.</div>
+ </div>`;
+}
+
+function choose(i){
+ if(selected!==null)return;
+ selected=i;
+ choices.push(STEPS[cur].choices[i].type);
+ render();
+}
+function nextStep(){cur++;selected=null;render()}
+function goBack(){if(cur>0){cur--;choices.pop();selected=choices.length>cur?choices[cur]:null;render()}}
+function restart(){cur=0;choices=[];selected=null;render()}
+
+render();
+</script>
