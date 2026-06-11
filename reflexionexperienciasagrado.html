@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EDU 690 · Reflexión · Experiencia VR Presencial</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F4F6FB; --bg-soft: #EAEEF8; --card: #FFFFFF;
+  --ink: #1E2A44; --ink-soft: #4A5878; --ink-faint: #8290AE;
+  --blue: #4A7DD6; --blue-deep: #2E5AA8; --lavender: #B8A6E8; --lavender-deep: #8B6FD4;
+  --gold: #C98A3C; --teal: #5FB3A3; --line: rgba(74,125,214,0.16);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background: radial-gradient(ellipse 50% 40% at 10% 5%, rgba(74,125,214,0.08), transparent 60%), radial-gradient(ellipse 45% 35% at 92% 96%, rgba(184,166,232,0.12), transparent 60%); }
+.wrap { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; padding: 0 24px 80px; }
+
+.hero { padding: 52px 0 32px; border-bottom: 1px solid var(--line); margin-bottom: 36px; }
+.hero-brand { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
+.hero-mark { width: 46px; height: 46px; border: 1px solid var(--blue); border-radius: 50%; display: grid; place-items: center; font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; font-size: 22px; color: var(--blue-deep); background: var(--card); position: relative; }
+.hero-mark::after { content: ''; position: absolute; inset: -5px; border: 1px solid var(--line); border-radius: 50%; }
+.hero-brand-text { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-soft); }
+.hero-brand-text strong { display: block; color: var(--ink); font-weight: 600; font-size: 14px; margin-top: 2px; }
+.hero-eyebrow { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--lavender-deep); font-weight: 600; margin-bottom: 14px; }
+.hero-title { font-family: 'Fraunces', serif; font-style: italic; font-size: clamp(34px, 5vw, 56px); line-height: 1.0; letter-spacing: -0.02em; margin-bottom: 16px; }
+.hero-title em { color: var(--blue-deep); }
+.hero-meta { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--ink-faint); margin-top: 18px; }
+.hero-meta span { display: inline-flex; align-items: center; gap: 7px; }
+.pts-badge { background: var(--gold); color: #fff; padding: 3px 12px; border-radius: 100px; font-weight: 600; font-size: 12px; letter-spacing: 0.05em; }
+
+.purpose { background: linear-gradient(135deg, rgba(74,125,214,0.07), rgba(184,166,232,0.07)); border: 1px solid var(--line); border-radius: 14px; padding: 26px 30px; margin-bottom: 30px; }
+.purpose h2 { font-family: 'Fraunces', serif; font-style: italic; font-size: 22px; color: var(--ink); margin-bottom: 10px; }
+.purpose p { font-size: 15.5px; color: var(--ink-soft); }
+
+/* Route toggle */
+.route-label { font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--lavender-deep); font-weight: 600; margin: 8px 0 14px; }
+.routes { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 32px; }
+@media (max-width: 600px) { .routes { grid-template-columns: 1fr; } }
+.route { background: var(--card); border: 2px solid var(--line); border-radius: 14px; padding: 24px; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 3px 14px rgba(46,90,168,0.05); }
+.route:hover { border-color: var(--blue); }
+.route.active { border-color: var(--blue); background: var(--bg-soft); }
+.route .r-ico { font-size: 30px; margin-bottom: 10px; }
+.route .r-title { font-family: 'Fraunces', serif; font-style: italic; font-size: 21px; color: var(--ink); margin-bottom: 6px; }
+.route .r-desc { font-size: 14px; color: var(--ink-soft); line-height: 1.5; }
+.route .r-check { margin-top: 14px; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue-deep); font-weight: 600; opacity: 0; transition: opacity 0.2s ease; }
+.route.active .r-check { opacity: 1; }
+
+.section { display: none; }
+.section.active { display: block; animation: fade 0.4s ease both; }
+@keyframes fade { from { opacity: 0; transform: translateY(8px);} to { opacity: 1; transform: translateY(0);} }
+
+/* Resources box (for async) */
+.resources { background: rgba(95,179,163,0.08); border: 1px solid rgba(95,179,163,0.3); border-radius: 14px; padding: 24px 28px; margin-bottom: 28px; }
+.resources h3 { font-family: 'Fraunces', serif; font-style: italic; font-size: 19px; color: var(--ink); margin-bottom: 12px; }
+.res-link { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(95,179,163,0.2); text-decoration: none; color: var(--ink); }
+.res-link:last-child { border-bottom: none; }
+.res-link:hover .rl-t { color: var(--blue-deep); }
+.res-link .rl-ico { font-size: 20px; }
+.res-link .rl-t { font-weight: 500; font-size: 15px; transition: color 0.2s; }
+.res-link .rl-arrow { margin-left: auto; color: var(--teal); }
+
+.instr { background: var(--card); border-left: 4px solid var(--gold); border-radius: 0 12px 12px 0; padding: 20px 24px; margin-bottom: 28px; }
+.instr .i-t { font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+.instr .i-d { font-size: 14.5px; color: var(--ink-soft); }
+
+/* Form */
+.q-block { margin-bottom: 28px; }
+.q-num { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50%; background: var(--blue); color: #fff; font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; font-size: 16px; margin-bottom: 12px; }
+.q-text { font-size: 17px; color: var(--ink); font-weight: 500; margin-bottom: 12px; line-height: 1.5; }
+.q-hint { font-size: 13px; color: var(--ink-faint); font-style: italic; margin-bottom: 12px; }
+.q-area { width: 100%; padding: 16px 20px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; font-size: 16px; line-height: 1.6; outline: none; transition: border 0.2s ease; min-height: 110px; resize: vertical; box-shadow: 0 2px 10px rgba(46,90,168,0.04); }
+.q-area:focus { border-color: var(--blue); }
+.q-area::placeholder { color: var(--ink-faint); }
+
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+@media (max-width: 600px) { .field-row { grid-template-columns: 1fr; } }
+.field label { display: block; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 8px; }
+.field input { width: 100%; padding: 14px 18px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; font-size: 16px; outline: none; }
+.field input:focus { border-color: var(--blue); }
+
+.actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 36px; padding-top: 28px; border-top: 1px solid var(--line); }
+.btn { padding: 16px 30px; border: none; border-radius: 10px; font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; letter-spacing: 0.06em; font-weight: 600; cursor: pointer; transition: all 0.25s ease; }
+.btn-primary { background: var(--blue); color: #fff; box-shadow: 0 4px 16px rgba(74,125,214,0.25); }
+.btn-primary:hover { background: var(--blue-deep); }
+.btn-ghost { background: var(--card); color: var(--blue-deep); border: 1px solid var(--blue); }
+.btn-ghost:hover { background: var(--bg-soft); }
+
+.note { font-size: 13px; color: var(--ink-faint); margin-top: 16px; line-height: 1.55; }
+
+.foot { text-align: center; padding: 44px 0 0; margin-top: 40px; border-top: 1px solid var(--line); }
+.foot .quote { font-family: 'Fraunces', serif; font-style: italic; color: var(--blue-deep); font-size: 18px; max-width: 520px; margin: 0 auto 12px; line-height: 1.45; }
+.foot .sig { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); }
+
+@media print {
+  body::after { display: none; }
+  .routes, .actions, .route-label, .btn { display: none !important; }
+  .q-area { border: 1px solid #ccc; box-shadow: none; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="hero-brand">
+      <div class="hero-mark">↻</div>
+      <div class="hero-brand-text">EDU 690 · Proyecto TIHA<strong>Realidades Inmersivas, Simulación y Tecnologías Emergentes</strong></div>
+    </div>
+    <div class="hero-eyebrow">Reflexión · Módulo 2</div>
+    <h1 class="hero-title">Tu experiencia con la <em>Realidad Virtual</em></h1>
+    <div class="hero-meta">
+      <span class="pts-badge">25 puntos</span>
+      <span>📅 Clase presencial · 11 de junio de 2026</span>
+      <span>📍 Sagrado Corazón · Escuela de Salud</span>
+    </div>
+  </header>
+
+  <div class="purpose">
+    <h2>🧠 Propósito</h2>
+    <p>Esta reflexión te invita a conectar tu experiencia con la Realidad Virtual, Aumentada y Mixta —vivida en la Escuela de Salud— con tu crecimiento profesional y personal. Vas a analizar cómo las tecnologías inmersivas pueden transformar la manera en que aprendemos, trabajamos y nos comunicamos, en sintonía con el espíritu de innovación y humanización que define nuestra filosofía TIHA.</p>
+  </div>
+
+  <div class="route-label">Elige tu ruta</div>
+  <div class="routes">
+    <div class="route active" data-route="presencial" onclick="setRoute('presencial')">
+      <div class="r-ico">🥽</div>
+      <div class="r-title">Asistí en persona</div>
+      <div class="r-desc">Estuve en la Escuela de Salud el 11 de junio y viví la experiencia con los visores.</div>
+      <div class="r-check">✓ Seleccionada</div>
+    </div>
+    <div class="route" data-route="asincronica" onclick="setRoute('asincronica')">
+      <div class="r-ico">🌐</div>
+      <div class="r-title">Exploro a distancia</div>
+      <div class="r-desc">No pude asistir (estoy en EU o tengo excusa). Reflexiono a través de los videos y recursos.</div>
+      <div class="r-check">✓ Seleccionada</div>
+    </div>
+  </div>
+
+  <!-- PRESENCIAL -->
+  <section class="section active" id="sec-presencial">
+    <div class="instr">
+      <div class="i-t">🎯 Instrucciones</div>
+      <div class="i-d">Reflexiona sobre tu experiencia y responde todas las preguntas guía con honestidad y profundidad. Mínimo 3–4 oraciones completas por pregunta. Puedes escribir directamente aquí, o crear una presentación corta en Gamma o Canva y subir el enlace en Canvas.</div>
+    </div>
+
+    <div class="field-row">
+      <div class="field"><label>Tu nombre</label><input type="text" id="p-name" placeholder="Nombre y apellido"></div>
+      <div class="field"><label>Tu correo institucional</label><input type="email" id="p-email" placeholder="usuario@sagrado.edu"></div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">1</div>
+      <div class="q-text">¿Cómo te sentiste durante la experiencia de Realidad Virtual en la Escuela de Salud?</div>
+      <div class="q-hint">Describe tus emociones y sensaciones al vivirla.</div>
+      <textarea class="q-area" data-q="1" placeholder="Tu respuesta..."></textarea>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">2</div>
+      <div class="q-text">¿Cómo ayuda (o no ayuda) este tipo de aprendizaje inmersivo a tu desarrollo profesional?</div>
+      <div class="q-hint">Conéctalo con tu disciplina y tu contexto laboral.</div>
+      <textarea class="q-area" data-q="2" placeholder="Tu respuesta..."></textarea>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">3</div>
+      <div class="q-text">¿Qué aplicación o programa de Realidad Virtual o Aumentada utilizaste, y qué te pareció?</div>
+      <div class="q-hint">Menciona la herramienta específica y tu valoración.</div>
+      <textarea class="q-area" data-q="3" placeholder="Tu respuesta..."></textarea>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">4</div>
+      <div class="q-text">¿Cuál fue tu reacción al usar el visor o las gafas inmersivas por primera vez?</div>
+      <div class="q-hint">Ese primer momento — ¿qué sentiste, qué te sorprendió?</div>
+      <textarea class="q-area" data-q="4" placeholder="Tu respuesta..."></textarea>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">5</div>
+      <div class="q-text">Si tuvieras la oportunidad de implementar herramientas inmersivas en tu campo hoy, ¿cómo lo harías y con qué propósito?</div>
+      <div class="q-hint">Piensa en una aplicación real y concreta.</div>
+      <textarea class="q-area" data-q="5" placeholder="Tu respuesta..."></textarea>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">6</div>
+      <div class="q-text">¿Qué recomendaciones darías a organizaciones o instituciones que quieran integrar tecnologías inmersivas?</div>
+      <div class="q-hint">Tu consejo profesional, desde lo que descubriste.</div>
+      <textarea class="q-area" data-q="6" placeholder="Tu respuesta..."></textarea>
+    </div>
+  </section>
+
+  <!-- ASINCRÓNICA -->
+  <section class="section" id="sec-asincronica">
+    <div class="instr">
+      <div class="i-t">🎯 Instrucciones</div>
+      <div class="i-d">Mira todos los videos y recursos con atención antes de escribir. Luego responde con profundidad cada pregunta. Mínimo 3–4 oraciones completas por pregunta. Puedes escribir aquí o crear una presentación en Gamma o Canva y subir el enlace en Canvas. <strong>Recuerda subir tu excusa médica o justificación en Canvas.</strong></div>
+    </div>
+
+    <div class="resources">
+      <h3>📸 Recursos · míralos antes de reflexionar</h3>
+      <a class="res-link" href="https://virtualspeech.com" target="_blank"><span class="rl-ico">🎤</span><span class="rl-t">VirtualSpeech — Entrenamiento de destrezas con IA</span><span class="rl-arrow">→</span></a>
+      <a class="res-link" href="https://www.vive.com/us/product/vive-xr-elite/overview/" target="_blank"><span class="rl-ico">🥽</span><span class="rl-t">HTC Vive XR Elite — Vista general del producto</span><span class="rl-arrow">→</span></a>
+      <a class="res-link" href="https://www.pcgamer.com/htc-vive-xr-elite-review/" target="_blank"><span class="rl-ico">📰</span><span class="rl-t">PC Gamer — Reseña del HTC Vive XR Elite</span><span class="rl-arrow">→</span></a>
+    </div>
+    <p class="note" style="margin-top:-14px;margin-bottom:24px">La profesora subirá fotos y videos de la visita a Canvas para que también puedas usarlos como referencia.</p>
+
+    <div class="field-row">
+      <div class="field"><label>Tu nombre</label><input type="text" id="a-name" placeholder="Nombre y apellido"></div>
+      <div class="field"><label>Tu correo institucional</label><input type="email" id="a-email" placeholder="usuario@sagrado.edu"></div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">1</div>
+      <div class="q-text">¿Cómo te sentiste después de ver los videos sobre Realidad Aumentada y tecnologías inmersivas?</div>
+      <div class="q-hint">Tus emociones y reacciones al observarlos.</div>
+      <textarea class="q-area" data-q="1" placeholder="Tu respuesta..."></textarea>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">2</div>
+      <div class="q-text">¿Qué aprendiste sobre cómo la RA/RV puede potenciar el aprendizaje o el desarrollo profesional?</div>
+      <div class="q-hint">Conéctalo con tu disciplina y tu contexto.</div>
+      <textarea class="q-area" data-q="2" placeholder="Tu respuesta..."></textarea>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">3</div>
+      <div class="q-text">¿Cuál de las herramientas mostradas (VirtualSpeech, HTC Vive XR Elite, etc.) captó más tu atención, y por qué?</div>
+      <div class="q-hint">Sé específica/o sobre qué te llamó la atención.</div>
+      <textarea class="q-area" data-q="3" placeholder="Tu respuesta..."></textarea>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">4</div>
+      <div class="q-text">¿Qué te sorprendió o inspiró más de las aplicaciones que viste en los videos?</div>
+      <div class="q-hint">Ese momento de "wow" o de descubrimiento.</div>
+      <textarea class="q-area" data-q="4" placeholder="Tu respuesta..."></textarea>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">5</div>
+      <div class="q-text">Si pudieras implementar herramientas inmersivas en tu campo hoy, ¿cómo lo harías y con qué propósito?</div>
+      <div class="q-hint">Una aplicación real y concreta en tu área.</div>
+      <textarea class="q-area" data-q="5" placeholder="Tu respuesta..."></textarea>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">6</div>
+      <div class="q-text">¿Qué recomendaciones darías a organizaciones que quieran integrar experiencias inmersivas?</div>
+      <div class="q-hint">Tu consejo profesional desde lo observado.</div>
+      <textarea class="q-area" data-q="6" placeholder="Tu respuesta..."></textarea>
+    </div>
+  </section>
+
+  <div class="actions">
+    <button class="btn btn-primary" onclick="descargarPDF()">📄 Descargar como PDF</button>
+    <button class="btn btn-ghost" onclick="descargarTexto()">📝 Descargar como texto</button>
+  </div>
+  <p class="note">💬 <strong>Recuerda:</strong> sé auténtica y reflexiva. Enfócate no solo en lo que viste, sino en lo que descubriste sobre ti como persona que aprende y como futuro profesional. 🌱<br><br>Descarga tu reflexión y súbela a Canvas en esta actividad. También puedes imprimir esta página como PDF (Ctrl/Cmd + P).</p>
+
+  <footer class="foot">
+    <p class="quote">"No aprendimos herramientas. Aprendimos nuevas maneras de imaginar el aprendizaje."</p>
+    <p class="sig">Dra. Mariluz Serrano-Ortiz · Proyecto TIHA · EDU 690</p>
+  </footer>
+
+</div>
+
+<script>
+let currentRoute = 'presencial';
+function setRoute(r) {
+  currentRoute = r;
+  document.querySelectorAll('.route').forEach(el => el.classList.toggle('active', el.dataset.route === r));
+  document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+  document.getElementById('sec-' + r).classList.add('active');
+}
+
+function gather() {
+  const sec = document.getElementById('sec-' + currentRoute);
+  const name = sec.querySelector('input[type=text]').value.trim() || 'Estudiante';
+  const email = sec.querySelector('input[type=email]').value.trim() || '';
+  const areas = sec.querySelectorAll('.q-area');
+  const questions = sec.querySelectorAll('.q-text');
+  const data = [];
+  areas.forEach((a, i) => { data.push({ q: questions[i].textContent, a: a.value.trim() }); });
+  return { name, email, route: currentRoute === 'presencial' ? 'Asistió en persona' : 'Exploración a distancia', data };
+}
+
+function descargarTexto() {
+  const r = gather();
+  let txt = `EDU 690 · Reflexión — Experiencia con Realidad Virtual\n`;
+  txt += `Clase presencial · 11 de junio de 2026 · Sagrado Corazón, Escuela de Salud\n`;
+  txt += `========================================================\n\n`;
+  txt += `Estudiante: ${r.name}\n`;
+  txt += `Correo: ${r.email}\n`;
+  txt += `Ruta: ${r.route}\n\n`;
+  r.data.forEach((item, i) => {
+    txt += `${i+1}. ${item.q}\n${item.a || '(sin respuesta)'}\n\n`;
+  });
+  txt += `\n"No aprendimos herramientas. Aprendimos nuevas maneras de imaginar el aprendizaje."\nDra. Mariluz Serrano-Ortiz · Proyecto TIHA · EDU 690`;
+  const blob = new Blob([txt], {type: 'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `Reflexion_VR_${r.name.replace(/\s+/g,'_')}.txt`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+}
+
+function descargarPDF() {
+  // Usa la función de impresión del navegador (Guardar como PDF)
+  window.print();
+}
+</script>
+</body>
+</html>
