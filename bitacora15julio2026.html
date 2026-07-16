@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EDU 690 · Bitácora · 15 de julio 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F4F6FB; --bg-soft: #EAEEF8; --card: #FFFFFF;
+  --ink: #1E2A44; --ink-soft: #4A5878; --ink-faint: #8290AE;
+  --blue: #4A7DD6; --blue-deep: #2E5AA8; --lavender: #B8A6E8; --lavender-deep: #8B6FD4;
+  --gold: #C98A3C; --teal: #5FB3A3; --line: rgba(74,125,214,0.16);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; font-size: 16px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background: radial-gradient(ellipse 50% 40% at 8% 5%, rgba(74,125,214,0.08), transparent 60%), radial-gradient(ellipse 45% 35% at 95% 96%, rgba(184,166,232,0.12), transparent 60%); }
+.wrap { position: relative; z-index: 2; max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+.hero { padding: 56px 0 36px; }
+.hero-brand { display: flex; align-items: center; gap: 14px; margin-bottom: 32px; }
+.hero-mark { width: 48px; height: 48px; border: 1px solid var(--blue); border-radius: 50%; display: grid; place-items: center; font-family: 'Fraunces', serif; font-style: italic; font-weight: 900; font-size: 24px; color: var(--blue-deep); background: var(--card); position: relative; }
+.hero-mark::after { content: ''; position: absolute; inset: -5px; border: 1px solid var(--line); border-radius: 50%; }
+.hero-brand-text { font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); }
+.hero-brand-text strong { display: block; color: var(--ink); font-weight: 600; font-size: 14px; margin-top: 2px; letter-spacing: 0.04em; }
+.hero-eyebrow { font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--lavender-deep); font-weight: 600; margin-bottom: 16px; }
+.hero-title { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-variation-settings: 'opsz' 144, 'SOFT' 60; font-size: clamp(36px, 6vw, 68px); line-height: 1.02; letter-spacing: -0.025em; margin-bottom: 20px; }
+.hero-title em { color: var(--blue-deep); }
+.hero-deck { font-size: 18px; color: var(--ink-soft); max-width: 680px; line-height: 1.6; }
+
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 36px; position: sticky; top: 0; z-index: 20; background: var(--bg); padding: 16px 0; border-bottom: 1px solid var(--line); }
+.tab { font-size: 14px; padding: 11px 20px; border-radius: 100px; border: 1px solid var(--line); color: var(--ink-soft); cursor: pointer; transition: all 0.2s ease; background: var(--card); font-weight: 500; display: flex; align-items: center; gap: 8px; }
+.tab:hover { border-color: var(--blue); color: var(--blue-deep); }
+.tab.active { background: var(--blue); color: #fff; border-color: var(--blue); box-shadow: 0 4px 14px rgba(74,125,214,0.25); }
+.tab .ico { font-size: 16px; }
+
+.panel { display: none; animation: fade 0.4s ease both; padding-bottom: 60px; }
+.panel.active { display: block; }
+@keyframes fade { from { opacity: 0; transform: translateY(8px);} to { opacity: 1; transform: translateY(0);} }
+
+.panel-title { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-size: clamp(28px, 4vw, 44px); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 16px; }
+.panel-title em { color: var(--blue-deep); }
+.panel-deck { font-size: 17px; color: var(--ink-soft); max-width: 700px; line-height: 1.6; margin-bottom: 28px; }
+.panel-deck strong { color: var(--ink); }
+
+.video-frame { position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 32px rgba(46,90,168,0.14); border: 1px solid var(--line); background: #000; }
+.video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+.linkcard { display: flex; align-items: center; gap: 22px; padding: 24px 28px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; margin-bottom: 16px; text-decoration: none; color: inherit; transition: all 0.25s ease; box-shadow: 0 4px 20px rgba(46,90,168,0.06); position: relative; overflow: hidden; }
+.linkcard::before { content: ''; position: absolute; top: 0; left: 0; width: 5px; height: 100%; background: var(--blue); }
+.linkcard.lav::before { background: var(--lavender-deep); }
+.linkcard.teal::before { background: var(--teal); }
+.linkcard.gold::before { background: var(--gold); }
+.linkcard:hover { transform: translateX(6px); border-color: var(--blue); }
+.linkcard-ico { font-size: 36px; line-height: 1; flex-shrink: 0; }
+.linkcard-body { flex: 1; }
+.linkcard-title { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 22px; color: var(--ink); margin-bottom: 4px; }
+.linkcard-text { font-size: 14.5px; color: var(--ink-soft); line-height: 1.5; }
+.linkcard-arrow { font-size: 22px; color: var(--blue); flex-shrink: 0; }
+
+.cards { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; margin: 24px 0; }
+@media (max-width: 680px) { .cards { grid-template-columns: 1fr; } }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 24px 26px; position: relative; overflow: hidden; box-shadow: 0 4px 18px rgba(46,90,168,0.06); }
+.card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--blue); }
+.card.lav::before { background: var(--lavender-deep); } .card.teal::before { background: var(--teal); } .card.gold::before { background: var(--gold); }
+.card-num { font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; font-size: 18px; color: var(--blue-deep); margin-bottom: 6px; }
+.card-title { font-family: 'Fraunces', serif; font-style: italic; font-size: 21px; margin-bottom: 8px; color: var(--ink); }
+.card-text { font-size: 14.5px; color: var(--ink-soft); line-height: 1.55; }
+.card-text strong { color: var(--blue-deep); }
+
+.callout { background: linear-gradient(135deg, rgba(201,138,60,0.1), rgba(184,166,232,0.08)); border: 1px solid rgba(201,138,60,0.25); border-radius: 14px; padding: 24px 28px; margin: 24px 0; }
+.callout .lbl { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 8px; }
+.callout .txt { font-family: 'Fraunces', serif; font-style: italic; font-size: 19px; color: var(--ink); line-height: 1.4; }
+
+.callout-soft { background: rgba(95,179,163,0.09); border: 1px solid rgba(95,179,163,0.3); border-radius: 14px; padding: 26px 28px; margin: 24px 0; }
+.callout-soft .lbl { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); font-weight: 700; margin-bottom: 10px; }
+.callout-soft .txt { font-size: 15.5px; color: var(--ink-soft); line-height: 1.65; }
+.callout-soft .txt strong { color: var(--ink); }
+
+.section-sub { font-family: 'Fraunces', serif; font-style: italic; font-size: 22px; color: var(--blue-deep); margin: 34px 0 14px; }
+.prose p { font-size: 15.5px; color: var(--ink-soft); line-height: 1.7; margin-bottom: 14px; }
+.prose strong { color: var(--ink); }
+
+.timeline { display: flex; flex-direction: column; gap: 0; margin: 24px 0; }
+.tl-item { display: flex; gap: 22px; padding: 18px 16px; border-bottom: 1px solid var(--line); border-radius: 10px; transition: all 0.2s ease; cursor: pointer; text-decoration: none; color: inherit; }
+.tl-item:hover { background: var(--bg-soft); transform: translateX(4px); }
+.tl-item:hover .tl-time { color: var(--lavender-deep); }
+.tl-time { flex-shrink: 0; font-family: 'Fraunces', serif; font-style: italic; font-size: 17px; color: var(--blue-deep); width: 90px; }
+.tl-body { flex: 1; }
+.tl-topic { font-size: 16.5px; color: var(--ink); font-weight: 600; margin-bottom: 3px; }
+.tl-desc { font-size: 14px; color: var(--ink-soft); line-height: 1.5; }
+
+.pend-list { display: flex; flex-direction: column; gap: 12px; margin: 20px 0 32px; }
+.pend-item { display: flex; gap: 16px; align-items: flex-start; padding: 18px 22px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 3px 14px rgba(46,90,168,0.05); }
+.pend-check { flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--teal); display: grid; place-items: center; font-size: 15px; color: var(--teal); background: var(--bg-soft); margin-top: 2px; }
+.pend-name { font-weight: 600; color: var(--ink); font-size: 15.5px; margin-bottom: 3px; }
+.pend-text { font-size: 14.5px; color: var(--ink-soft); line-height: 1.5; }
+
+.encuesta { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 32px; box-shadow: 0 4px 20px rgba(46,90,168,0.07); }
+.encuesta-q { margin-bottom: 26px; }
+.encuesta-label { font-family: 'Fraunces', serif; font-style: italic; font-size: 19px; color: var(--ink); margin-bottom: 10px; display: block; }
+.encuesta textarea { width: 100%; min-height: 100px; border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; font-family: 'IBM Plex Sans', sans-serif; font-size: 15px; color: var(--ink); background: var(--bg-soft); resize: vertical; }
+.encuesta textarea:focus { outline: none; border-color: var(--blue); }
+.encuesta-btn { background: var(--blue); color: #fff; border: none; padding: 14px 28px; border-radius: 100px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+.encuesta-btn:hover { background: var(--blue-deep); transform: translateY(-1px); }
+.encuesta-note { font-size: 13px; color: var(--ink-faint); margin-top: 12px; }
+.encuesta-thanks { display: none; text-align: center; padding: 20px; }
+.encuesta-thanks .txt { font-family: 'Fraunces', serif; font-style: italic; font-size: 20px; color: var(--blue-deep); }
+
+.foot { text-align: center; padding: 48px 0; border-top: 1px solid var(--line); margin-top: 20px; }
+.foot-quote { font-family: 'Fraunces', serif; font-style: italic; font-size: 19px; color: var(--blue-deep); max-width: 560px; margin: 0 auto 14px; line-height: 1.45; }
+.foot-meta { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); }
+
+@media (max-width: 640px) { .hero { padding: 40px 0 28px; } .linkcard { padding: 20px; gap: 14px; } .linkcard-ico { font-size: 30px; } .encuesta { padding: 22px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="hero-brand">
+      <div class="hero-mark">↻</div>
+      <div class="hero-brand-text">Proyecto TIHA · EDU 690<strong>Realidades Inmersivas, Simulación y Tecnologías Emergentes</strong></div>
+    </div>
+    <div class="hero-eyebrow">Encuentro sincrónico · Miércoles 15 de julio de 2026</div>
+    <h1 class="hero-title">El momento en que <em>se volvió tuyo</em>.</h1>
+    <p class="hero-deck">Aquí tienes la clase de hoy completa: la grabación, un resumen de lo que trabajamos, el minuto a minuto, todos los recursos compartidos — y al final, un espacio para que me digas qué necesitas de mí de aquí al cierre del curso.</p>
+  </header>
+
+  <nav class="tabs" id="tabs">
+    <button class="tab active" data-tab="video"><span class="ico">▶️</span> Video</button>
+    <button class="tab" data-tab="resumen"><span class="ico">📝</span> Resumen</button>
+    <button class="tab" data-tab="minuto"><span class="ico">⏱️</span> Minuto a minuto</button>
+    <button class="tab" data-tab="recursos"><span class="ico">🔗</span> Recursos</button>
+    <button class="tab" data-tab="pendientes"><span class="ico">✅</span> Pendientes</button>
+    <button class="tab" data-tab="voz"><span class="ico">💬</span> Tu voz</button>
+  </nav>
+
+  <!-- VIDEO -->
+  <section class="panel active" id="panel-video">
+    <h2 class="panel-title">La clase <em>grabada</em></h2>
+    <p class="panel-deck">Mira el encuentro completo cuando quieras, a tu ritmo. Puedes pausar y devolver cuando lo necesites.</p>
+    <div class="video-frame">
+      <iframe src="https://www.youtube.com/embed/fqRkwyKISdU" title="EDU 690 · 15 de julio 2026" allowfullscreen></iframe>
+    </div>
+    <p style="font-size:14px;color:var(--ink-faint);margin-top:14px;text-align:center;">Si el video no carga, míralo directo en <a href="https://youtu.be/fqRkwyKISdU" target="_blank" style="color:var(--blue-deep);">YouTube</a>.</p>
+
+    <div class="callout">
+      <div class="lbl">La pregunta del día</div>
+      <div class="txt">"¿Cuál fue el momento, en todo este proceso, en que una herramienta dejó de sentirse como tarea y empezó a sentirse tuya?"</div>
+    </div>
+  </section>
+
+  <!-- RESUMEN -->
+  <section class="panel" id="panel-resumen">
+    <h2 class="panel-title">Lo esencial de <em>hoy</em></h2>
+    <p class="panel-deck">Un repaso de lo que compartimos, con espacio también para lo que sentimos.</p>
+
+    <div class="callout-soft">
+      <div class="lbl">Un mensaje para ustedes</div>
+      <div class="txt">Sé que la Actividad 8 pide un análisis y que eso, sumado a todo lo que hemos trabajado con mundos inmersivos, puede sentirse como mucho. Quiero que lo tengan claro: este no es un curso autodirigido. Yo estoy aquí — para dudas, para repetir una explicación las veces que haga falta, para lo que necesiten de aquí al cierre. Si algo no se entiende, no es que ustedes estén "atrasados"; es información para mí sobre dónde ajustar. Así que, por favor, sigan escribiéndome.</div>
+    </div>
+
+    <div class="section-sub">Espacios que ya son de ustedes</div>
+    <div class="prose">
+      <p>El momento más lindo de la clase fue cuando Raysa compartió su espacio curado — combinando <strong>FrameVR</strong> y <strong>Raindrop</strong> a través de Lovable. El grupo reaccionó con genuino cariño ("una belleza", "quedé enamorada"), y esa reacción es exactamente lo que buscamos con la pregunta del día: identificar cuándo una herramienta deja de sentirse impuesta y empieza a sentirse propia.</p>
+      <p>Joan compartió su experiencia con <strong>Teachy.ai</strong> — una herramienta que había probado hace año y medio sin conectar con ella, y que hoy, con más contexto, tiene más sentido. Es un buen recordatorio de que no pasa nada si una herramienta no "hace clic" la primera vez.</p>
+    </div>
+
+    <div class="section-sub">Herramientas de IA: más allá del prompt básico</div>
+    <div class="prose">
+      <p>Conversamos sobre <strong>agentes de IA</strong> (Bárbara preguntó específicamente sobre esto — queda pendiente una sesión dedicada), sobre los recursos oficiales de aprendizaje de Anthropic, y sobre una fórmula sencilla para escribir mejores instrucciones: <strong>Rol → Contexto → Tarea → Formato</strong>. Esta estructura les sirve para cualquier herramienta de IA generativa, no solo para FrameVR o Claude.</p>
+      <p>También exploramos <strong>LiveAvatar</strong> para crear avatares con IA. Bárbara celebró haber usado GitHub por primera vez — otro ejemplo de una herramienta que empieza como tarea y termina sintiéndose propia.</p>
+    </div>
+
+    <div class="section-sub">Pensar antes de automatizar</div>
+    <div class="prose">
+      <p>Uno de los comentarios más certeros de la clase vino de Bárbara: que el propósito de estos ejercicios "es ver cómo estamos pensando antes de dejar que la IA nos haga las cosas sin pensar". Esa es, en el fondo, la esencia de TIHA — la tecnología no sustituye el pensamiento crítico, lo acompaña.</p>
+    </div>
+
+    <div class="callout">
+      <div class="lbl">Nota sobre esta bitácora</div>
+      <div class="txt">Este resumen se construyó a partir del chat de la sesión. Si quieres que agregue matices de lo que se habló en voz durante algún tramo específico, dime el minuto aproximado y lo reviso contigo.</div>
+    </div>
+  </section>
+
+  <!-- MINUTO A MINUTO -->
+  <section class="panel" id="panel-minuto">
+    <h2 class="panel-title">La clase <em>minuto a minuto</em></h2>
+    <p class="panel-deck">Salta directo al momento que quieras repasar. Estos marcadores están construidos sobre la actividad del chat, así que son un buen mapa de los temas — no un registro exhaustivo de cada palabra dicha.</p>
+    <div class="timeline">
+      <a class="tl-item" href="https://youtu.be/fqRkwyKISdU?t=982" target="_blank"><div class="tl-time">16:22</div><div class="tl-body"><div class="tl-topic">Llegada y saludo del grupo</div><div class="tl-desc">Carmen entra a la sala; comienza el encuentro.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/fqRkwyKISdU?t=1123" target="_blank"><div class="tl-time">18:43</div><div class="tl-body"><div class="tl-topic">La pregunta del día</div><div class="tl-desc">"¿Cuál fue el momento en que una herramienta dejó de sentirse como tarea y empezó a sentirse tuya?"</div></div></a>
+      <a class="tl-item" href="https://youtu.be/fqRkwyKISdU?t=1444" target="_blank"><div class="tl-time">24:04</div><div class="tl-body"><div class="tl-topic">Raysa comparte su espacio curado</div><div class="tl-desc">Un mundo que integra FrameVR y Raindrop a través de Lovable.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/fqRkwyKISdU?t=2578" target="_blank"><div class="tl-time">42:58</div><div class="tl-body"><div class="tl-topic">El grupo celebra el espacio de Raysa</div><div class="tl-desc">Reacciones de cariño genuino ante su trabajo.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/fqRkwyKISdU?t=2661" target="_blank"><div class="tl-time">44:21</div><div class="tl-body"><div class="tl-topic">Se comparte Teachy.ai</div><div class="tl-desc">Herramienta de IA para crear contenido educativo.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/fqRkwyKISdU?t=2788" target="_blank"><div class="tl-time">46:28</div><div class="tl-body"><div class="tl-topic">Joan cuenta su experiencia previa con Teachy</div><div class="tl-desc">La probó hace año y medio sin conectar del todo con ella.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/fqRkwyKISdU?t=2903" target="_blank"><div class="tl-time">48:23</div><div class="tl-body"><div class="tl-topic">Pregunta sobre crear un agente de IA</div><div class="tl-desc">Bárbara pregunta si se puede dedicar una sesión a esto — queda pendiente.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/fqRkwyKISdU?t=3378" target="_blank"><div class="tl-time">56:18</div><div class="tl-body"><div class="tl-topic">Segunda ronda de cariño hacia el espacio de Raysa</div><div class="tl-desc">"Quedé enamorada" — el grupo sigue reaccionando a su trabajo.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/fqRkwyKISdU?t=3476" target="_blank"><div class="tl-time">57:56</div><div class="tl-body"><div class="tl-topic">Gemini también integra estas funciones</div><div class="tl-desc">Joan comenta que Gemini ahora ofrece algo similar.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/fqRkwyKISdU?t=3799" target="_blank"><div class="tl-time">1:03:19</div><div class="tl-body"><div class="tl-topic">Joan se registra en el curso gratis de Claude</div><div class="tl-desc">Comparte su interés en seguir aprendiendo por su cuenta.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/fqRkwyKISdU?t=3975" target="_blank"><div class="tl-time">1:06:15</div><div class="tl-body"><div class="tl-topic">Recursos oficiales de Anthropic</div><div class="tl-desc">Skilljar y anthropic.com/learn, para quien quiera profundizar.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/fqRkwyKISdU?t=4090" target="_blank"><div class="tl-time">1:08:10</div><div class="tl-body"><div class="tl-topic">¿Qué son los plugins?</div><div class="tl-desc">Bárbara pregunta — buen momento para aclarar el concepto.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/fqRkwyKISdU?t=4540" target="_blank"><div class="tl-time">1:15:40</div><div class="tl-body"><div class="tl-topic">Pensar antes de automatizar</div><div class="tl-desc">Bárbara resume el propósito real de estos ejercicios: pensar antes de dejar que la IA decida.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/fqRkwyKISdU?t=5237" target="_blank"><div class="tl-time">1:27:17</div><div class="tl-body"><div class="tl-topic">Se comparte LiveAvatar</div><div class="tl-desc">Herramienta para crear avatares con IA.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/fqRkwyKISdU?t=5794" target="_blank"><div class="tl-time">1:36:34</div><div class="tl-body"><div class="tl-topic">Fórmula de prompt: Rol, Contexto, Tarea, Formato</div><div class="tl-desc">Una estructura simple para escribir mejores instrucciones a cualquier IA.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/fqRkwyKISdU?t=5968" target="_blank"><div class="tl-time">1:39:28</div><div class="tl-body"><div class="tl-topic">Duda sobre el límite de "2 minutos"</div><div class="tl-desc">Bárbara pide que se aclare mejor este límite técnico.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/fqRkwyKISdU?t=6358" target="_blank"><div class="tl-time">1:45:58</div><div class="tl-body"><div class="tl-topic">Herramientas de IA para practicar idiomas</div><div class="tl-desc">Conversación sobre su aplicación en la clase de idiomas de Carmen.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/fqRkwyKISdU?t=6581" target="_blank"><div class="tl-time">1:49:41</div><div class="tl-body"><div class="tl-topic">Bárbara celebra usar GitHub por primera vez</div><div class="tl-desc">Otra herramienta que hoy se sintió suya.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/fqRkwyKISdU?t=6765" target="_blank"><div class="tl-time">1:52:45</div><div class="tl-body"><div class="tl-topic">Cierre de la sesión</div><div class="tl-desc">Despedidas del grupo.</div></div></a>
+    </div>
+  </section>
+
+  <!-- RECURSOS -->
+  <section class="panel" id="panel-recursos">
+    <h2 class="panel-title">Recursos <em>compartidos</em></h2>
+    <p class="panel-deck">Todo lo que se envió por el chat durante el encuentro, en un solo lugar.</p>
+
+    <a class="linkcard" href="https://framevr-rain-curate.lovable.app/" target="_blank">
+      <div class="linkcard-ico">🌐</div>
+      <div class="linkcard-body"><div class="linkcard-title">FrameVR + Raindrop curado por Raysa</div><div class="linkcard-text">Un espacio construido con Lovable que integra su mundo de FrameVR con su curaduría de Raindrop.</div></div>
+      <div class="linkcard-arrow">→</div>
+    </a>
+
+    <a class="linkcard teal" href="https://teachy.ai/es/home" target="_blank">
+      <div class="linkcard-ico">🤖</div>
+      <div class="linkcard-body"><div class="linkcard-title">Teachy.ai</div><div class="linkcard-text">Herramienta de IA para crear contenido educativo — vale la pena explorarla con calma.</div></div>
+      <div class="linkcard-arrow">→</div>
+    </a>
+
+    <a class="linkcard gold" href="https://anthropic.skilljar.com" target="_blank">
+      <div class="linkcard-ico">🎓</div>
+      <div class="linkcard-body"><div class="linkcard-title">Curso gratuito de Claude (Anthropic Academy)</div><div class="linkcard-text">Compartido por Joan — para quien quiera profundizar por su cuenta.</div></div>
+      <div class="linkcard-arrow">→</div>
+    </a>
+
+    <a class="linkcard" href="https://www.anthropic.com/learn" target="_blank">
+      <div class="linkcard-ico">📚</div>
+      <div class="linkcard-body"><div class="linkcard-title">Anthropic — recursos de aprendizaje</div><div class="linkcard-text">La sección oficial de Anthropic con guías y fundamentos sobre IA generativa.</div></div>
+      <div class="linkcard-arrow">→</div>
+    </a>
+
+    <a class="linkcard lav" href="https://app.liveavatar.com/home" target="_blank">
+      <div class="linkcard-ico">🧑‍💻</div>
+      <div class="linkcard-body"><div class="linkcard-title">LiveAvatar</div><div class="linkcard-text">Herramienta para crear avatares con IA.</div></div>
+      <div class="linkcard-arrow">→</div>
+    </a>
+
+    <div class="callout">
+      <div class="lbl">Fórmula de prompt compartida en clase</div>
+      <div class="txt">Rol → Contexto → Tarea → Formato. Úsala la próxima vez que le escribas a cualquier IA generativa.</div>
+    </div>
+  </section>
+
+  <!-- PENDIENTES -->
+  <section class="panel" id="panel-pendientes">
+    <h2 class="panel-title">Hacia la <em>completitud</em></h2>
+    <p class="panel-deck">Lo que sigue, sabiendo que no están solas ni solos en el camino.</p>
+
+    <div class="pend-list">
+      <div class="pend-item"><div class="pend-check">✓</div><div><div class="pend-name">Todo el grupo</div><div class="pend-text">Avanzar en la Actividad 8 — el componente de análisis es exigente, así que cualquier duda, por pequeña que parezca, escríbanla. No hay pregunta de más.</div></div></div>
+      <div class="pend-item"><div class="pend-check">✓</div><div><div class="pend-name">Todo el grupo</div><div class="pend-text">Explorar la fórmula Rol → Contexto → Tarea → Formato en su próxima interacción con IA, sea para el curso o fuera de él.</div></div></div>
+      <div class="pend-item"><div class="pend-check">✓</div><div><div class="pend-name">Bárbara</div><div class="pend-text">Quedó pendiente una explicación más profunda sobre cómo crear un agente de IA — se coordinará en una próxima sesión.</div></div></div>
+      <div class="pend-item"><div class="pend-check">✓</div><div><div class="pend-name">Quien quiera profundizar por su cuenta</div><div class="pend-text">Revisar el curso gratuito de Anthropic Academy o los recursos en anthropic.com/learn.</div></div></div>
+    </div>
+
+    <div class="callout-soft">
+      <div class="lbl">Recordatorio</div>
+      <div class="txt">Este curso no es autodirigido. Si algo no está claro, ese es exactamente el tipo de información que necesito para poder ayudarles mejor. Sigo aquí — cualquier cosa, me escriben.</div>
+    </div>
+  </section>
+
+  <!-- TU VOZ -->
+  <section class="panel" id="panel-voz">
+    <h2 class="panel-title">Antes de cerrar, <em>quiero escucharte</em></h2>
+    <p class="panel-deck">Dos preguntas cortas. Tus respuestas llegan directo a mi correo — nada más.</p>
+
+    <div class="encuesta" id="encuesta-form">
+      <div class="encuesta-q">
+        <label class="encuesta-label" for="encuesta-p1">¿Cuál fue el momento, en todo este proceso, en que una herramienta dejó de sentirse como tarea y empezó a sentirse tuya?</label>
+        <textarea id="encuesta-p1" placeholder="Escribe aquí..."></textarea>
+      </div>
+      <div class="encuesta-q">
+        <label class="encuesta-label" for="encuesta-p2">¿Qué necesitas de mí de aquí a que termine el curso?</label>
+        <textarea id="encuesta-p2" placeholder="Escribe aquí..."></textarea>
+      </div>
+      <button class="encuesta-btn" onclick="enviarEncuesta()">Enviarme tu respuesta</button>
+      <p class="encuesta-note">Al hacer clic se abrirá tu programa de correo con un mensaje ya redactado dirigido a mí. Revisa que el mensaje llegue completo antes de darle enviar — si tu respuesta es larga, algunos correos la cortan; en ese caso, copia el texto de la caja de abajo y pégalo directo en el cuerpo del correo.</p>
+
+      <div id="encuesta-respaldo" style="display:none; margin-top:20px;">
+        <label class="encuesta-label" style="font-size:15px;">Copia de respaldo de tu respuesta</label>
+        <textarea id="encuesta-respaldo-texto" readonly style="min-height:140px;"></textarea>
+        <button class="encuesta-btn" style="margin-top:10px; background:var(--teal);" onclick="copiarRespaldo()">Copiar texto completo</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p class="foot-quote">"No es usar más tecnología, es usar tecnología para vivir mejor." — Dra. Mariluz Serrano Ortiz</p>
+    <div class="foot-meta">Dra. Mariluz Serrano-Ortiz · Proyecto TIHA · EDU 690</div>
+  </footer>
+
+</div>
+
+<script>
+const tabs = document.querySelectorAll('.tab');
+const panels = document.querySelectorAll('.panel');
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const target = tab.dataset.tab;
+    tabs.forEach(t => t.classList.remove('active'));
+    panels.forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('panel-' + target).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+function enviarEncuesta() {
+  const p1 = document.getElementById('encuesta-p1').value.trim();
+  const p2 = document.getElementById('encuesta-p2').value.trim();
+  if (!p1 && !p2) {
+    alert('Anímate a escribir algo antes de enviar :)');
+    return;
+  }
+  const body = "Momento en que una herramienta se sintió mía:\n" + (p1 || "(sin respuesta)") +
+               "\n\nQué necesito de la profesora de aquí al cierre del curso:\n" + (p2 || "(sin respuesta)");
+
+  // Muestra siempre una copia de respaldo completa, por si el correo la corta
+  document.getElementById('encuesta-respaldo-texto').value = body;
+  document.getElementById('encuesta-respaldo').style.display = 'block';
+
+  const mailto = "mailto:mserrano@sagrado.edu?subject=" + encodeURIComponent("Mi respuesta - Bitácora 15 de julio") + "&body=" + encodeURIComponent(body);
+  window.location.href = mailto;
+}
+
+function copiarRespaldo() {
+  const texto = document.getElementById('encuesta-respaldo-texto');
+  texto.select();
+  texto.setSelectionRange(0, 999999);
+  navigator.clipboard.writeText(texto.value).then(() => {
+    alert('¡Copiado! Ahora pégalo en el cuerpo del correo que se abrió.');
+  }).catch(() => {
+    alert('Selecciona el texto y cópialo manualmente (Ctrl/Cmd + C).');
+  });
+}
+</script>
+</body>
+</html>
