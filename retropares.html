@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Presentaciones de Impacto — Retroalimentación entre pares</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+
+  :root {
+    --blue: #4A7DD6;
+    --lavender-deep: #8B6FD4;
+    --gold: #C98A3C;
+    --teal: #5FB3A3;
+    --ink: #23262f;
+    --paper: #FBFAF8;
+    --line: #E4E1DA;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: linear-gradient(160deg, #f3f0ff, var(--paper) 40%);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    line-height: 1.55;
+    padding: 32px 16px 60px;
+  }
+
+  .card {
+    max-width: 620px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(74,125,214,0.12);
+    overflow: hidden;
+  }
+
+  header {
+    background: linear-gradient(135deg, var(--blue), var(--lavender-deep));
+    color: white;
+    padding: 28px 28px 24px;
+    text-align: center;
+  }
+
+  header .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.9;
+    font-weight: 600;
+  }
+
+  header h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 24px;
+    margin: 8px 0 4px;
+  }
+
+  header p { margin: 0; font-size: 14px; opacity: 0.95; }
+
+  form { padding: 26px 28px 30px; }
+
+  .field { margin-bottom: 20px; }
+
+  label {
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: #3a3f4d;
+  }
+
+  input[type="text"], textarea {
+    width: 100%;
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    resize: vertical;
+  }
+
+  input[type="text"]:focus, textarea:focus {
+    outline: none;
+    border-color: var(--blue);
+  }
+
+  textarea { min-height: 70px; }
+
+  .faces {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+  }
+
+  .face-option {
+    flex: 1;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .face-option input { display: none; }
+
+  .face-option .emoji {
+    font-size: 30px;
+    display: block;
+    border-radius: 12px;
+    padding: 8px 4px;
+    border: 2px solid transparent;
+    transition: all 0.15s ease;
+  }
+
+  .face-option input:checked + .emoji {
+    border-color: var(--gold);
+    background: #fdf4e7;
+    transform: scale(1.08);
+  }
+
+  .face-option .face-label {
+    display: block;
+    font-size: 11px;
+    color: #8a8f9c;
+    margin-top: 2px;
+  }
+
+  .pillars {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .pillar-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    padding: 9px 12px;
+    font-size: 13.5px;
+    cursor: pointer;
+  }
+
+  .pillar-check input { accent-color: var(--teal); width: 16px; height: 16px; }
+
+  button.submit {
+    width: 100%;
+    background: var(--blue);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'IBM Plex Sans', sans-serif;
+    cursor: pointer;
+    margin-top: 6px;
+    transition: background 0.15s ease;
+  }
+
+  button.submit:hover { background: var(--lavender-deep); }
+
+  .hint {
+    font-size: 12.5px;
+    color: #8a8f9c;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  footer {
+    text-align: center;
+    font-size: 12px;
+    color: #a3a8b5;
+    padding: 16px 20px 24px;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <header>
+    <div class="eyebrow">EDU 690 · Presentaciones de Impacto</div>
+    <h1>¿Qué te pareció este mundo inmersivo?</h1>
+    <p>Comparte tu retroalimentación con la persona que presenta — a la Dra. Serrano le llegará una copia.</p>
+  </header>
+
+  <form id="retroForm">
+    <div class="field">
+      <label for="viewerName">Tu nombre</label>
+      <input type="text" id="viewerName" required placeholder="Quién da la retroalimentación">
+    </div>
+
+    <div class="field">
+      <label for="projectName">Mundo / compañera o compañero que estás evaluando</label>
+      <input type="text" id="projectName" required placeholder="Ej. Presentaciones de Impacto — Bárbara">
+    </div>
+
+    <div class="field">
+      <label>¿Cómo te sentiste explorando este mundo?</label>
+      <div class="faces">
+        <label class="face-option">
+          <input type="radio" name="satisfaccion" value="Me encantó">
+          <span class="emoji">🤩</span>
+          <span class="face-label">Me encantó</span>
+        </label>
+        <label class="face-option">
+          <input type="radio" name="satisfaccion" value="Me gustó">
+          <span class="emoji">😊</span>
+          <span class="face-label">Me gustó</span>
+        </label>
+        <label class="face-option">
+          <input type="radio" name="satisfaccion" value="Está bien">
+          <span class="emoji">🙂</span>
+          <span class="face-label">Está bien</span>
+        </label>
+        <label class="face-option">
+          <input type="radio" name="satisfaccion" value="Le falta algo">
+          <span class="emoji">🤔</span>
+          <span class="face-label">Le falta algo</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>¿Qué te gustó más? (marca todo lo que aplique)</label>
+      <div class="pillars">
+        <label class="pillar-check"><input type="checkbox" value="Diseño visual"> Diseño visual</label>
+        <label class="pillar-check"><input type="checkbox" value="Claridad pedagógica"> Claridad pedagógica</label>
+        <label class="pillar-check"><input type="checkbox" value="Creatividad"> Creatividad</label>
+        <label class="pillar-check"><input type="checkbox" value="Gamificación"> Gamificación</label>
+        <label class="pillar-check"><input type="checkbox" value="Accesibilidad"> Accesibilidad</label>
+        <label class="pillar-check"><input type="checkbox" value="Conexión emocional"> Conexión emocional</label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="meGusta">Me gustó esto, porque...</label>
+      <textarea id="meGusta" placeholder="Cuéntale qué te llamó la atención y por qué"></textarea>
+    </div>
+
+    <div class="field">
+      <label for="sugerencia">Una sugerencia o pregunta para quien presentó</label>
+      <textarea id="sugerencia" placeholder="Opcional: algo que le añadirías o le preguntarías"></textarea>
+    </div>
+
+    <button type="submit" class="submit">Enviar retroalimentación 💌</button>
+    <p class="hint">Se abrirá tu correo con todo ya escrito — solo confirma el envío. Copia automática a la Dra. Serrano.</p>
+  </form>
+
+  <footer>"No aprendimos herramientas. Aprendimos nuevas maneras de imaginar el aprendizaje."</footer>
+</div>
+
+<script>
+  document.getElementById('retroForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const viewer = document.getElementById('viewerName').value.trim();
+    const project = document.getElementById('projectName').value.trim();
+    const satisfaccion = document.querySelector('input[name="satisfaccion"]:checked');
+    const pillars = Array.from(document.querySelectorAll('.pillar-check input:checked')).map(cb => cb.value);
+    const meGusta = document.getElementById('meGusta').value.trim();
+    const sugerencia = document.getElementById('sugerencia').value.trim();
+
+    if (!viewer || !project) {
+      alert('Por favor completa tu nombre y el mundo que estás evaluando.');
+      return;
+    }
+
+    const subject = `Retroalimentación de pares — ${project}`;
+    let body = `Retroalimentación de: ${viewer}\n`;
+    body += `Mundo evaluado: ${project}\n\n`;
+    body += `Satisfacción general: ${satisfaccion ? satisfaccion.value : '(no seleccionada)'}\n\n`;
+    body += `Lo que más le gustó: ${pillars.length ? pillars.join(', ') : '(ninguno marcado)'}\n\n`;
+    body += `Me gustó esto, porque: ${meGusta || '(sin comentario)'}\n\n`;
+    body += `Sugerencia o pregunta: ${sugerencia || '(sin comentario)'}\n\n`;
+    body += `— Enviado desde la herramienta de Retroalimentación de Pares, EDU 690`;
+
+    const mailtoLink = `mailto:mserrano@sagrado.edu?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    window.location.href = mailtoLink;
+  });
+</script>
+
+</body>
+</html>
