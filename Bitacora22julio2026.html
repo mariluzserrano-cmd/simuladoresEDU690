@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EDU 690 · Bitácora · 22 de julio 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F4F6FB; --bg-soft: #EAEEF8; --card: #FFFFFF;
+  --ink: #1E2A44; --ink-soft: #4A5878; --ink-faint: #8290AE;
+  --blue: #4A7DD6; --blue-deep: #2E5AA8; --lavender: #B8A6E8; --lavender-deep: #8B6FD4;
+  --gold: #C98A3C; --teal: #5FB3A3; --line: rgba(74,125,214,0.16);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; font-size: 16px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background: radial-gradient(ellipse 50% 40% at 8% 5%, rgba(74,125,214,0.08), transparent 60%), radial-gradient(ellipse 45% 35% at 95% 96%, rgba(184,166,232,0.12), transparent 60%); }
+.wrap { position: relative; z-index: 2; max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+.hero { padding: 56px 0 36px; }
+.hero-brand { display: flex; align-items: center; gap: 14px; margin-bottom: 32px; }
+.hero-mark { width: 48px; height: 48px; border: 1px solid var(--blue); border-radius: 50%; display: grid; place-items: center; font-family: 'Fraunces', serif; font-style: italic; font-weight: 900; font-size: 24px; color: var(--blue-deep); background: var(--card); position: relative; }
+.hero-mark::after { content: ''; position: absolute; inset: -5px; border: 1px solid var(--line); border-radius: 50%; }
+.hero-brand-text { font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); }
+.hero-brand-text strong { display: block; color: var(--ink); font-weight: 600; font-size: 14px; margin-top: 2px; letter-spacing: 0.04em; }
+.hero-eyebrow { font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--lavender-deep); font-weight: 600; margin-bottom: 16px; }
+.hero-title { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-variation-settings: 'opsz' 144, 'SOFT' 60; font-size: clamp(32px, 6vw, 62px); line-height: 1.05; letter-spacing: -0.025em; margin-bottom: 20px; }
+.hero-title em { color: var(--blue-deep); }
+.hero-deck { font-size: 18px; color: var(--ink-soft); max-width: 680px; line-height: 1.6; }
+
+.feature-card { display: flex; align-items: center; gap: 22px; padding: 26px 30px; background: linear-gradient(135deg, rgba(74,125,214,0.1), rgba(184,166,232,0.1)); border: 1px solid var(--line); border-radius: 18px; margin: 28px 0 8px; text-decoration: none; color: inherit; transition: all 0.25s ease; }
+.feature-card:hover { transform: translateX(4px); }
+.feature-ico { font-size: 40px; }
+.feature-title { font-family: 'Fraunces', serif; font-style: italic; font-size: 23px; color: var(--blue-deep); margin-bottom: 4px; }
+.feature-text { font-size: 14.5px; color: var(--ink-soft); }
+.feature-arrow { font-size: 24px; color: var(--blue); margin-left: auto; }
+
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 36px; position: sticky; top: 0; z-index: 20; background: var(--bg); padding: 16px 0; border-bottom: 1px solid var(--line); }
+.tab { font-size: 14px; padding: 11px 20px; border-radius: 100px; border: 1px solid var(--line); color: var(--ink-soft); cursor: pointer; transition: all 0.2s ease; background: var(--card); font-weight: 500; display: flex; align-items: center; gap: 8px; }
+.tab:hover { border-color: var(--blue); color: var(--blue-deep); }
+.tab.active { background: var(--blue); color: #fff; border-color: var(--blue); box-shadow: 0 4px 14px rgba(74,125,214,0.25); }
+.tab .ico { font-size: 16px; }
+
+.panel { display: none; animation: fade 0.4s ease both; padding-bottom: 60px; }
+.panel.active { display: block; }
+@keyframes fade { from { opacity: 0; transform: translateY(8px);} to { opacity: 1; transform: translateY(0);} }
+
+.panel-title { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-size: clamp(28px, 4vw, 44px); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 16px; }
+.panel-title em { color: var(--blue-deep); }
+.panel-deck { font-size: 17px; color: var(--ink-soft); max-width: 700px; line-height: 1.6; margin-bottom: 28px; }
+.panel-deck strong { color: var(--ink); }
+
+.callout { background: linear-gradient(135deg, rgba(201,138,60,0.1), rgba(184,166,232,0.08)); border: 1px solid rgba(201,138,60,0.25); border-radius: 14px; padding: 24px 28px; margin: 24px 0; }
+.callout .lbl { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 8px; }
+.callout .txt { font-family: 'Fraunces', serif; font-style: italic; font-size: 19px; color: var(--ink); line-height: 1.4; }
+
+.callout-soft { background: rgba(95,179,163,0.09); border: 1px solid rgba(95,179,163,0.3); border-radius: 14px; padding: 26px 28px; margin: 24px 0; }
+.callout-soft .lbl { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); font-weight: 700; margin-bottom: 10px; }
+.callout-soft .txt { font-size: 15.5px; color: var(--ink-soft); line-height: 1.65; }
+.callout-soft .txt strong { color: var(--ink); }
+
+.section-sub { font-family: 'Fraunces', serif; font-style: italic; font-size: 22px; color: var(--blue-deep); margin: 34px 0 14px; }
+.prose p { font-size: 15.5px; color: var(--ink-soft); line-height: 1.7; margin-bottom: 14px; }
+.prose strong { color: var(--ink); }
+
+.video-frame { position: relative; width: 100%; padding: 60px 30px; border-radius: 16px; background: var(--card); border: 1px solid var(--line); text-align: center; box-shadow: 0 8px 32px rgba(46,90,168,0.08); }
+.video-frame .big-ico { font-size: 48px; margin-bottom: 16px; }
+.video-frame h3 { font-family: 'Fraunces', serif; font-style: italic; font-size: 24px; color: var(--ink); margin-bottom: 10px; }
+.video-frame p { color: var(--ink-soft); font-size: 15px; max-width: 480px; margin: 0 auto 20px; }
+.video-frame a.btn { display: inline-block; background: var(--blue); color: #fff; padding: 12px 26px; border-radius: 100px; text-decoration: none; font-weight: 600; font-size: 14.5px; }
+
+/* Mundo blocks */
+.mundo { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 30px 32px; margin-bottom: 22px; box-shadow: 0 4px 20px rgba(46,90,168,0.06); position: relative; overflow: hidden; }
+.mundo::before { content: ''; position: absolute; top: 0; left: 0; width: 6px; height: 100%; background: var(--blue); }
+.mundo.lav::before { background: var(--lavender-deep); } .mundo.teal::before { background: var(--teal); } .mundo.gold::before { background: var(--gold); }
+.mundo-tag { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--blue-deep); font-weight: 700; margin-bottom: 6px; }
+.mundo-title { font-family: 'Fraunces', serif; font-style: italic; font-size: 25px; color: var(--ink); margin-bottom: 4px; }
+.mundo-authors { font-size: 14px; color: var(--ink-faint); margin-bottom: 14px; }
+.mundo-desc { font-size: 15px; color: var(--ink-soft); line-height: 1.65; margin-bottom: 18px; }
+.mundo-links { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+.mundo-links a { font-size: 13.5px; color: var(--blue-deep); background: var(--bg-soft); border: 1px solid var(--line); padding: 8px 14px; border-radius: 100px; text-decoration: none; font-weight: 500; transition: all 0.2s ease; }
+.mundo-links a:hover { background: var(--blue); color: #fff; }
+.nubecitas { display: flex; flex-wrap: wrap; gap: 10px; }
+.nube { background: var(--bg-soft); border-radius: 16px; border-bottom-left-radius: 4px; padding: 10px 16px; font-size: 13.5px; color: var(--ink-soft); max-width: 260px; position: relative; }
+.nube strong { color: var(--ink); display: block; font-size: 11.5px; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 3px; color: var(--lavender-deep); }
+
+.linkcard { display: flex; align-items: center; gap: 22px; padding: 22px 26px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; margin-bottom: 14px; text-decoration: none; color: inherit; transition: all 0.25s ease; box-shadow: 0 4px 20px rgba(46,90,168,0.06); position: relative; overflow: hidden; }
+.linkcard::before { content: ''; position: absolute; top: 0; left: 0; width: 5px; height: 100%; background: var(--blue); }
+.linkcard.lav::before { background: var(--lavender-deep); } .linkcard.teal::before { background: var(--teal); } .linkcard.gold::before { background: var(--gold); }
+.linkcard:hover { transform: translateX(6px); border-color: var(--blue); }
+.linkcard-ico { font-size: 32px; line-height: 1; flex-shrink: 0; }
+.linkcard-body { flex: 1; }
+.linkcard-title { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 20px; color: var(--ink); margin-bottom: 4px; }
+.linkcard-text { font-size: 14px; color: var(--ink-soft); line-height: 1.5; }
+.linkcard-arrow { font-size: 20px; color: var(--blue); flex-shrink: 0; }
+
+.pend-list { display: flex; flex-direction: column; gap: 12px; margin: 20px 0 32px; }
+.pend-item { display: flex; gap: 16px; align-items: flex-start; padding: 18px 22px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 3px 14px rgba(46,90,168,0.05); }
+.pend-check { flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--teal); display: grid; place-items: center; font-size: 15px; color: var(--teal); background: var(--bg-soft); margin-top: 2px; }
+.pend-name { font-weight: 600; color: var(--ink); font-size: 15.5px; margin-bottom: 3px; }
+.pend-text { font-size: 14.5px; color: var(--ink-soft); line-height: 1.5; }
+
+.foot { text-align: center; padding: 48px 0; border-top: 1px solid var(--line); margin-top: 20px; }
+.foot-quote { font-family: 'Fraunces', serif; font-style: italic; font-size: 19px; color: var(--blue-deep); max-width: 560px; margin: 0 auto 14px; line-height: 1.45; }
+.foot-meta { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); }
+
+@media (max-width: 640px) { .hero { padding: 40px 0 28px; } .mundo { padding: 22px; } .feature-card { flex-direction: column; text-align: center; } .feature-arrow { margin: 0; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="hero-brand">
+      <div class="hero-mark">↻</div>
+      <div class="hero-brand-text">Proyecto TIHA · EDU 690<strong>Realidades Inmersivas, Simulación y Tecnologías Emergentes</strong></div>
+    </div>
+    <div class="hero-eyebrow">Encuentro sincrónico · Miércoles 22 de julio de 2026</div>
+    <h1 class="hero-title">Ocho mundos, <em>una noche</em>.</h1>
+    <p class="hero-deck">Hoy presentaron casi todos sus mundos inmersivos. Aquí tienes cada uno con sus enlaces, los comentarios que dejaron sus compañeras y compañeros, y el acceso directo para dejarles tu propia retrocomunicación.</p>
+
+    <a class="feature-card" href="https://mariluzserrano-cmd.github.io/simuladoresEDU690/retropares.html" target="_blank">
+      <div class="feature-ico">💌</div>
+      <div>
+        <div class="feature-title">Envía tu retrocomunicación a tus compañeras y compañeros</div>
+        <div class="feature-text">Esto no afecta tu evaluación final — es un espacio para reconocer el trabajo de los demás.</div>
+      </div>
+      <div class="feature-arrow">→</div>
+    </a>
+  </header>
+
+  <nav class="tabs" id="tabs">
+    <button class="tab active" data-tab="video"><span class="ico">🎥</span> Grabación</button>
+    <button class="tab" data-tab="resumen"><span class="ico">📝</span> Resumen</button>
+    <button class="tab" data-tab="mundos"><span class="ico">🌐</span> Mundos presentados</button>
+    <button class="tab" data-tab="recursos"><span class="ico">🔗</span> Recursos adicionales</button>
+    <button class="tab" data-tab="pendientes"><span class="ico">✅</span> Pendientes</button>
+  </nav>
+
+  <!-- VIDEO -->
+  <section class="panel active" id="panel-video">
+    <h2 class="panel-title">La <em>grabación</em></h2>
+    <p class="panel-deck">La grabación todavía se está procesando en Zoom, así que por ahora el acceso es a través del enlace directo. En cuanto esté disponible para descarga, la subimos a YouTube y añadimos aquí mismo el minuto a minuto de cada presentación.</p>
+
+    <div class="video-frame">
+      <div class="big-ico">⏳</div>
+      <h3>Grabación en proceso</h3>
+      <p>Mientras tanto, puedes acceder a la grabación directamente desde Zoom (puede pedirte iniciar sesión institucional).</p>
+      <a class="btn" href="https://sagrado.zoom.us/rec/share/foSrDwg7pzKJFibf40gKjbtw-hzrC19dqNbQYZZA3xNQZcbEC5T0zC3krlZ0AFXx.hBrnKDxg3c9fRPbH" target="_blank">Ver grabación en Zoom</a>
+    </div>
+  </section>
+
+  <!-- RESUMEN -->
+  <section class="panel" id="panel-resumen">
+    <h2 class="panel-title">Lo esencial de <em>hoy</em></h2>
+    <p class="panel-deck">Casi todo el grupo presentó su mundo inmersivo — y se notó lo mucho que crecieron desde la Actividad 6.</p>
+
+    <div class="prose">
+      <p>La noche empezó con Raysa, cuyo mundo <strong>"Fragmentos de Vida"</strong> dejó a todo el grupo sin palabras: una galería virtual construida junto a pacientes de oncología pediátrica del Hospital Bayamón, usando las tapitas de sus medicamentos como material artístico. La experiencia recorre el origen del proyecto, las obras completas y la exposición real que se presentó en la Cámara de Representantes — con un manejo cuidadoso de la privacidad de los pacientes que fue especialmente destacado.</p>
+      <p>Joan y Heysa presentaron <strong>"Geo City"</strong>, un mundo para estudiantes de escuela primaria que enseña la diferencia entre figuras 2D y 3D a través de tres estaciones y un juego interactivo hecho en Genially.</p>
+      <p>Bárbara mostró <strong>"Presentaciones de Impacto"</strong>, un auditorio virtual con desafíos gamificados y práctica de grabación, diseñado para fortalecer la comunicación de conocimiento técnico — con un dominio notable de las cinco fases de ADDIE.</p>
+      <p>Verónica presentó su <strong>Centro de Innovación y Evangelización Digital</strong>, un portal que humaniza el espacio digital a través de la figura de un joven que documentó milagros eucarísticos, con salas de discernimiento personal y de talentos.</p>
+      <p>Melanie llevó al grupo por su <strong>Galería del Autorretrato</strong>, explorando a Picasso, Frida Kahlo y Van Gogh — con algunos tropiezos técnicos de audio que resolvimos sobre la marcha.</p>
+      <p>Frances, Valery y Enid cerraron con <strong>"Mente Conectada"</strong>: un recorrido sobre inteligencia artificial, ansiedad digital y bienestar, con una mecánica gamificada de buscar hábitos saludables y un certificado digital al final.</p>
+      <p>Lara compartió su mundo sobre <strong>hospitalidad y operaciones hoteleras</strong>, con presentaciones teóricas, imágenes de repaso y un examen de 30 preguntas.</p>
+    </div>
+
+    <div class="callout-soft">
+      <div class="lbl">Sobre Carmen y José</div>
+      <div class="txt">Carmen y José van a presentar la próxima semana, el <strong>miércoles 29 de julio</strong>. Apoyémosles con la misma energía con la que recibimos a todo el grupo hoy.</div>
+    </div>
+
+    <div class="callout">
+      <div class="lbl">Recurso destacado</div>
+      <div class="txt">Hoy la profesora terminó de certificarse gratis en Padlet — otra herramienta con valor añadido para quien quiera explorarla.</div>
+    </div>
+  </section>
+
+  <!-- MUNDOS -->
+  <section class="panel" id="panel-mundos">
+    <h2 class="panel-title">Mundos <em>presentados</em></h2>
+    <p class="panel-deck">Todos los enlaces de cada presentación, en un solo lugar, junto a lo que sus compañeras y compañeros dijeron sobre ellos.</p>
+
+    <div class="mundo">
+      <div class="mundo-tag">Presentación 1</div>
+      <div class="mundo-title">Fragmentos de Vida</div>
+      <div class="mundo-authors">Raysa Saldaña Casillas</div>
+      <div class="mundo-desc">Una galería virtual creada con pacientes de oncología pediátrica del Hospital Bayamón, usando tapitas de medicamentos como material artístico. El recorrido incluye tres salas: el origen del proyecto, las obras completas, y la exposición real presentada en la Cámara de Representantes.</div>
+      <div class="mundo-links">
+        <a href="https://framevr.io/fragmentosdevida" target="_blank">🌐 Mundo en FrameVR</a>
+        <a href="https://museum-vr-entry.lovable.app/" target="_blank">🎟️ OVA de entrada</a>
+      </div>
+      <div class="nubecitas">
+        <div class="nube"><strong>Heysa</strong>"Me encantan esos proyectos de arte y la iniciativa"</div>
+        <div class="nube"><strong>Joan</strong>"Amo tu mundo muchas veces"</div>
+        <div class="nube"><strong>Bárbara</strong>"Es una belleza. Tiene un componente de educación y empatía importante"</div>
+        <div class="nube"><strong>Frances</strong>"Raysa es caso aparte, muy top as always"</div>
+        <div class="nube"><strong>Carmen</strong>"Un mundo maravilloso. Gracias por dejármelo ver antes"</div>
+      </div>
+    </div>
+
+    <div class="mundo lav">
+      <div class="mundo-tag">Presentación 2 · Grupo</div>
+      <div class="mundo-title">Geo City</div>
+      <div class="mundo-authors">Joan Ortiz Vélez y Heysa De Jesús</div>
+      <div class="mundo-desc">Un mundo para estudiantes de escuela primaria que enseña la diferencia entre figuras 2D y 3D, con tres estaciones pedagógicas y un juego interactivo de clasificación construido en Genially.</div>
+      <div class="mundo-links">
+        <a href="https://framevr.io/geocity" target="_blank">🌐 Mundo en FrameVR</a>
+        <a href="https://view.genially.com/6a4eac0fb2d44a506a05ddfc" target="_blank">🎮 Juego interactivo (Genially)</a>
+      </div>
+      <div class="nubecitas">
+        <div class="nube"><strong>Mariluz</strong>"Me deja jugar, excelente"</div>
+        <div class="nube"><strong>Bárbara</strong>"Está bien bueno"</div>
+      </div>
+    </div>
+
+    <div class="mundo teal">
+      <div class="mundo-tag">Presentación 3</div>
+      <div class="mundo-title">Presentaciones de Impacto</div>
+      <div class="mundo-authors">Bárbara Carbonell</div>
+      <div class="mundo-desc">Un auditorio virtual centrado en los fundamentos pedagógicos para presentaciones de impacto, con desafíos gamificados, reflexiones interactivas y práctica opcional de grabarse presentando. Aplica las cinco fases de ADDIE e integra Genially y Google Forms — con potencial real como producto comercializable para otras empresas.</div>
+      <div class="mundo-links">
+        <a href="https://framevr.io/presentacionesimpacto" target="_blank">🌐 Mundo en FrameVR</a>
+        <a href="https://bncarbonell.github.io/SimuladoresEDU690/presentacionesimpactoova.html" target="_blank">🎟️ OVA de entrada</a>
+      </div>
+    </div>
+
+    <div class="mundo gold">
+      <div class="mundo-tag">Presentación 4</div>
+      <div class="mundo-title">Centro de Innovación y Evangelización Digital</div>
+      <div class="mundo-authors">Verónica M. Cabrera Rojas</div>
+      <div class="mundo-desc">Un portal inmersivo que forma parte de un curso de fundamentos de misión digital, con la figura de un joven de 15 años que documentó milagros eucarísticos. El recorrido incluye salas de discernimiento personal y de identificación de talentos para impactar comunidades en el mundo digital.</div>
+      <div class="mundo-links">
+        <a href="https://framevr.io/centrodeinvocionyevangelizaciondigital" target="_blank">🌐 Mundo en FrameVR</a>
+        <a href="https://www.thinglink.com/view/scene/2134885547464720870" target="_blank">🖼️ Escena en ThingLink</a>
+        <a href="https://veronicacr04.github.io/simulador-mision-digital/" target="_blank">🧭 Simulador de discernimiento</a>
+      </div>
+    </div>
+
+    <div class="mundo">
+      <div class="mundo-tag">Presentación 5</div>
+      <div class="mundo-title">Galería del Autorretrato</div>
+      <div class="mundo-authors">Melanie Oms Castillo</div>
+      <div class="mundo-desc">Una galería inmersiva creada en Genially donde los participantes identifican elementos básicos del autorretrato — color, expresión, identidad — a través de estaciones sobre Picasso, Frida Kahlo, Van Gogh y otros artistas, con retos y actividades creativas.</div>
+      <div class="mundo-links">
+        <a href="https://framevr.io/edu690-melanie" target="_blank">🌐 Mundo en FrameVR</a>
+        <a href="https://view.genially.com/6a4bab0795ff680bae9f05fd" target="_blank">🖼️ Galería (Genially)</a>
+      </div>
+    </div>
+
+    <div class="mundo lav">
+      <div class="mundo-tag">Presentación 6 · Grupo</div>
+      <div class="mundo-title">Mente Conectada</div>
+      <div class="mundo-authors">Frances Torres, Valery Juarbe y Enid</div>
+      <div class="mundo-desc">Una experiencia sobre inteligencia artificial, ansiedad digital y bienestar. Valery presentó la evolución de la IA desde 1950 con un video de mitos y realidades; Frances mostró la ansiedad digital y los algoritmos de redes sociales con la mecánica "Encuentra los 4 hábitos"; Enid cerró con la reflexión final y el compromiso personal, con escaneo de códigos, videos, desafíos y certificado digital.</div>
+      <div class="mundo-links">
+        <a href="https://framevr.io/ovaedu690" target="_blank">🌐 Mundo en FrameVR</a>
+        <a href="https://view.genially.com/6a502834a9c8fbc7d44560a3" target="_blank">🖼️ Recorrido (Genially)</a>
+      </div>
+    </div>
+
+    <div class="mundo teal">
+      <div class="mundo-tag">Presentación 7</div>
+      <div class="mundo-title">Hotel Manage VR</div>
+      <div class="mundo-authors">Lara</div>
+      <div class="mundo-desc">Un mundo inmersivo sobre hospitalidad y operaciones hoteleras: presentaciones teóricas, imágenes de repaso y un examen de 30 preguntas para reforzar el contenido.</div>
+      <div class="mundo-links">
+        <a href="https://framevr.io/hotelmanagevr" target="_blank">🌐 Mundo en FrameVR</a>
+        <a href="https://canva.link/il4c5owedzkt0x6" target="_blank">🎨 Presentación (Canva)</a>
+        <a href="https://questreward.lovable.app/" target="_blank">🏆 Recompensas del recorrido</a>
+        <a href="https://www.canva.com/design/DAHP3QtHfMo/XnSD6Vp1z9CuEK4ADwC3Aw/edit" target="_blank">📝 Examen de 30 preguntas</a>
+      </div>
+      <div class="nubecitas">
+        <div class="nube"><strong>Enid</strong>"Me gusta el tema"</div>
+        <div class="nube"><strong>Mariluz</strong>"Y a mí"</div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- RECURSOS ADICIONALES -->
+  <section class="panel" id="panel-recursos">
+    <h2 class="panel-title">Recursos <em>adicionales</em></h2>
+    <p class="panel-deck">Herramientas que se compartieron durante la sesión, fuera de las presentaciones.</p>
+
+    <a class="linkcard" href="https://aframe.io/" target="_blank">
+      <div class="linkcard-ico">🧱</div>
+      <div class="linkcard-body"><div class="linkcard-title">A-Frame</div><div class="linkcard-text">La herramienta de referencia para construir escenas de realidad virtual con código abierto.</div></div>
+      <div class="linkcard-arrow">→</div>
+    </a>
+
+    <a class="linkcard lav" href="https://padlet.tv/series/media-hub3-pd-course/landing_page" target="_blank">
+      <div class="linkcard-ico">📌</div>
+      <div class="linkcard-body"><div class="linkcard-title">Curso gratuito de certificación en Padlet</div><div class="linkcard-text">La profesora se certificó hoy — otra herramienta con valor añadido para quien quiera explorarla.</div></div>
+      <div class="linkcard-arrow">→</div>
+    </a>
+
+    <a class="linkcard teal" href="https://www.netlify.com/" target="_blank">
+      <div class="linkcard-ico">☁️</div>
+      <div class="linkcard-body"><div class="linkcard-title">Netlify</div><div class="linkcard-text">Un repositorio alternativo a GitHub Pages para HTML's más robustos tipo aplicaciones — no solo landing pages.</div></div>
+      <div class="linkcard-arrow">→</div>
+    </a>
+
+    <a class="linkcard gold" href="https://mariluzserrano-cmd.github.io/simuladoresEDU690/retropares.html" target="_blank">
+      <div class="linkcard-ico">💌</div>
+      <div class="linkcard-body"><div class="linkcard-title">Simulador de retrocomunicación entre pares</div><div class="linkcard-text">El espacio para dejarle a cada compañera y compañero un comentario sobre su presentación. No afecta la evaluación final.</div></div>
+      <div class="linkcard-arrow">→</div>
+    </a>
+  </section>
+
+  <!-- PENDIENTES -->
+  <section class="panel" id="panel-pendientes">
+    <h2 class="panel-title">Hacia el <em>cierre</em></h2>
+    <p class="panel-deck">Lo que sigue de aquí al final del curso.</p>
+
+    <div class="pend-list">
+      <div class="pend-item"><div class="pend-check">✓</div><div><div class="pend-name">Carmen y José</div><div class="pend-text">Presentan el miércoles 29 de julio — apoyémosles con la misma energía de hoy.</div></div></div>
+      <div class="pend-item"><div class="pend-check">✓</div><div><div class="pend-name">Todo el grupo</div><div class="pend-text">Enviar retrocomunicación a compañeras y compañeros usando el simulador. No influye en la nota final, pero es un espacio lindo de reconocimiento mutuo.</div></div></div>
+      <div class="pend-item"><div class="pend-check">✓</div><div><div class="pend-name">Todo el grupo</div><div class="pend-text">Todo debe estar entregado a más tardar el viernes 24 de julio, para que la profesora pueda otorgar notas finales y retrocomunicación a tiempo.</div></div></div>
+      <div class="pend-item"><div class="pend-check">✓</div><div><div class="pend-name">Bárbara</div><div class="pend-text">Recibirá los enlaces organizados para hacer su retrocomunicación con calma, tal como pidió.</div></div></div>
+    </div>
+
+    <div class="callout-soft">
+      <div class="lbl">En cuanto la grabación esté lista</div>
+      <div class="txt">Se subirá a YouTube y esta bitácora se actualizará con el minuto a minuto de cada presentación.</div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p class="foot-quote">"La inteligencia artificial no reemplaza al ser humano; lo potencia para trascender." — Metodología TIHA, Dra. Mariluz Serrano Ortiz</p>
+    <div class="foot-meta">Dra. Mariluz Serrano-Ortiz · Proyecto TIHA · EDU 690</div>
+  </footer>
+
+</div>
+
+<script>
+const tabs = document.querySelectorAll('.tab');
+const panels = document.querySelectorAll('.panel');
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const target = tab.dataset.tab;
+    tabs.forEach(t => t.classList.remove('active'));
+    panels.forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('panel-' + target).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
