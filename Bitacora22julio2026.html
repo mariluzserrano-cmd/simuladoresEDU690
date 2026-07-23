@@ -84,6 +84,15 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 .mundo-links { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
 .mundo-links a { font-size: 13.5px; color: var(--blue-deep); background: var(--bg-soft); border: 1px solid var(--line); padding: 8px 14px; border-radius: 100px; text-decoration: none; font-weight: 500; transition: all 0.2s ease; }
 .mundo-links a:hover { background: var(--blue); color: #fff; }
+
+.timeline { display: flex; flex-direction: column; gap: 0; margin: 24px 0; }
+.tl-item { display: flex; gap: 22px; padding: 18px 16px; border-bottom: 1px solid var(--line); border-radius: 10px; transition: all 0.2s ease; cursor: pointer; text-decoration: none; color: inherit; }
+.tl-item:hover { background: var(--bg-soft); transform: translateX(4px); }
+.tl-item:hover .tl-time { color: var(--lavender-deep); }
+.tl-time { flex-shrink: 0; font-family: 'Fraunces', serif; font-style: italic; font-size: 17px; color: var(--blue-deep); width: 90px; }
+.tl-body { flex: 1; }
+.tl-topic { font-size: 16.5px; color: var(--ink); font-weight: 600; margin-bottom: 3px; }
+.tl-desc { font-size: 14px; color: var(--ink-soft); line-height: 1.5; }
 .nubecitas { display: flex; flex-wrap: wrap; gap: 10px; }
 .nube { background: var(--bg-soft); border-radius: 16px; border-bottom-left-radius: 4px; padding: 10px 16px; font-size: 13.5px; color: var(--ink-soft); max-width: 260px; position: relative; }
 .nube strong { color: var(--ink); display: block; font-size: 11.5px; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 3px; color: var(--lavender-deep); }
@@ -136,6 +145,7 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
   <nav class="tabs" id="tabs">
     <button class="tab active" data-tab="video"><span class="ico">🎥</span> Grabación</button>
     <button class="tab" data-tab="resumen"><span class="ico">📝</span> Resumen</button>
+    <button class="tab" data-tab="minuto"><span class="ico">⏱️</span> Minuto a minuto</button>
     <button class="tab" data-tab="mundos"><span class="ico">🌐</span> Mundos presentados</button>
     <button class="tab" data-tab="recursos"><span class="ico">🔗</span> Recursos adicionales</button>
     <button class="tab" data-tab="pendientes"><span class="ico">✅</span> Pendientes</button>
@@ -143,15 +153,12 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
 
   <!-- VIDEO -->
   <section class="panel active" id="panel-video">
-    <h2 class="panel-title">La <em>grabación</em></h2>
-    <p class="panel-deck">La grabación todavía se está procesando en Zoom, así que por ahora el acceso es a través del enlace directo. En cuanto esté disponible para descarga, la subimos a YouTube y añadimos aquí mismo el minuto a minuto de cada presentación.</p>
-
-    <div class="video-frame">
-      <div class="big-ico">⏳</div>
-      <h3>Grabación en proceso</h3>
-      <p>Mientras tanto, puedes acceder a la grabación directamente desde Zoom (puede pedirte iniciar sesión institucional).</p>
-      <a class="btn" href="https://sagrado.zoom.us/rec/share/foSrDwg7pzKJFibf40gKjbtw-hzrC19dqNbQYZZA3xNQZcbEC5T0zC3krlZ0AFXx.hBrnKDxg3c9fRPbH" target="_blank">Ver grabación en Zoom</a>
+    <h2 class="panel-title">La clase <em>grabada</em></h2>
+    <p class="panel-deck">Mira el encuentro completo cuando quieras, a tu ritmo.</p>
+    <div class="video-frame" style="padding:0; aspect-ratio:16/9; background:#000;">
+      <iframe src="https://www.youtube.com/embed/LC9QLXjgKXo" title="EDU 690 · 22 de julio 2026" allowfullscreen style="position:absolute; inset:0; width:100%; height:100%; border:0;"></iframe>
     </div>
+    <p style="font-size:14px;color:var(--ink-faint);margin-top:14px;text-align:center;">Si el video no carga, míralo directo en <a href="https://youtu.be/LC9QLXjgKXo" target="_blank" style="color:var(--blue-deep);">YouTube</a>.</p>
   </section>
 
   <!-- RESUMEN -->
@@ -180,7 +187,30 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
     </div>
   </section>
 
-  <!-- MUNDOS -->
+  <!-- MINUTO A MINUTO -->
+  <section class="panel" id="panel-minuto">
+    <h2 class="panel-title">La clase <em>minuto a minuto</em></h2>
+    <p class="panel-deck">Salta directo al momento que quieras repasar.</p>
+    <div class="timeline">
+      <a class="tl-item" href="https://youtu.be/LC9QLXjgKXo?t=17" target="_blank"><div class="tl-time">0:17</div><div class="tl-body"><div class="tl-topic">Bienvenida y check-in</div><div class="tl-desc">Saludo inicial, cómo llegó cada quien a la sesión.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/LC9QLXjgKXo?t=137" target="_blank"><div class="tl-time">2:17</div><div class="tl-body"><div class="tl-topic">Pregunta de Bárbara sobre A-Frame</div><div class="tl-desc">Si hay que sustituirla o solo explorarla y compararla en la investigación.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/LC9QLXjgKXo?t=269" target="_blank"><div class="tl-time">4:29</div><div class="tl-body"><div class="tl-topic">Cómo funciona la entrega de notas en Canvas</div><div class="tl-desc">Es un proceso automático — la profesora sube las notas y el sistema hace el resto.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/LC9QLXjgKXo?t=451" target="_blank"><div class="tl-time">7:31</div><div class="tl-body"><div class="tl-topic">Dinámica de la sesión</div><div class="tl-desc">"Ustedes son dueñas hoy de este espacio" — cada quien presenta a su ritmo.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/LC9QLXjgKXo?t=1081" target="_blank"><div class="tl-time">18:01</div><div class="tl-body"><div class="tl-topic">Raysa presenta "Fragmentos de Vida"</div><div class="tl-desc">Su galería junto a pacientes de oncología pediátrica del Hospital Bayamón.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/LC9QLXjgKXo?t=2528" target="_blank"><div class="tl-time">42:08</div><div class="tl-body"><div class="tl-topic">Joan y Heysa presentan "Geo City"</div><div class="tl-desc">Su ciudad geométrica para estudiantes de primaria.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/LC9QLXjgKXo?t=3540" target="_blank"><div class="tl-time">59:00</div><div class="tl-body"><div class="tl-topic">Bárbara presenta "Presentaciones de Impacto"</div><div class="tl-desc">Su auditorio virtual sobre comunicación de conocimiento técnico.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/LC9QLXjgKXo?t=4576" target="_blank"><div class="tl-time">1:16:16</div><div class="tl-body"><div class="tl-topic">Raysa elogia el dominio de ADDIE de Bárbara</div><div class="tl-desc">Destaca lo claro que se ve el modelo aplicado en su mundo.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/LC9QLXjgKXo?t=5376" target="_blank"><div class="tl-time">1:29:36</div><div class="tl-body"><div class="tl-topic">Verónica presenta su Centro de Innovación y Evangelización Digital</div><div class="tl-desc">Su portal de discernimiento y talentos, con Carmen como voluntaria en el ejercicio.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/LC9QLXjgKXo?t=6543" target="_blank"><div class="tl-time">1:49:03</div><div class="tl-body"><div class="tl-topic">El grupo comenta lo fácil de recorrer que es, pese a ser grande</div><div class="tl-desc">Raysa destaca la claridad del contenido de Verónica.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/LC9QLXjgKXo?t=6782" target="_blank"><div class="tl-time">1:53:02</div><div class="tl-body"><div class="tl-topic">Receso</div><div class="tl-desc">10 minutos para estirarse antes de continuar.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/LC9QLXjgKXo?t=7529" target="_blank"><div class="tl-time">2:05:29</div><div class="tl-body"><div class="tl-topic">Melanie presenta su Galería del Autorretrato</div><div class="tl-desc">Su recorrido por Picasso, Frida Kahlo, Van Gogh y otros.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/LC9QLXjgKXo?t=7863" target="_blank"><div class="tl-time">2:21:03</div><div class="tl-body"><div class="tl-topic">Bárbara elogia la claridad visual de Melanie</div><div class="tl-desc">Letra legible, navegación clara y buen manejo pedagógico.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/LC9QLXjgKXo?t=8518" target="_blank"><div class="tl-time">2:21:58</div><div class="tl-body"><div class="tl-topic">Frances, Valery y Enid presentan "Mente Conectada"</div><div class="tl-desc">Su recorrido sobre IA, ansiedad digital y bienestar.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/LC9QLXjgKXo?t=9989" target="_blank"><div class="tl-time">2:46:29</div><div class="tl-body"><div class="tl-topic">Lara presenta "Hotel Manage VR"</div><div class="tl-desc">Su mundo sobre hospitalidad y operaciones hoteleras.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/LC9QLXjgKXo?t=10713" target="_blank"><div class="tl-time">2:58:33</div><div class="tl-body"><div class="tl-topic">Se pospone a Carmen para el 29 de julio</div><div class="tl-desc">Se une a José — todo el grupo se compromete a apoyarles.</div></div></a>
+      <a class="tl-item" href="https://youtu.be/LC9QLXjgKXo?t=10760" target="_blank"><div class="tl-time">2:59:20</div><div class="tl-body"><div class="tl-topic">Cierre de la sesión</div><div class="tl-desc">Recordatorio de la Actividad 8 y de la reflexión final del curso.</div></div></a>
+    </div>
+  </section>
   <section class="panel" id="panel-mundos">
     <h2 class="panel-title">Mundos <em>presentados</em></h2>
     <p class="panel-deck">Todos los enlaces de cada presentación, en un solo lugar, junto a lo que sus compañeras y compañeros dijeron sobre ellos.</p>
@@ -325,8 +355,8 @@ body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-in
     </div>
 
     <div class="callout-soft">
-      <div class="lbl">En cuanto la grabación esté lista</div>
-      <div class="txt">Se subirá a YouTube y esta bitácora se actualizará con el minuto a minuto de cada presentación.</div>
+      <div class="lbl">Actualización</div>
+      <div class="txt">La grabación ya está disponible en la pestaña de Video, con su minuto a minuto completo.</div>
     </div>
   </section>
 
